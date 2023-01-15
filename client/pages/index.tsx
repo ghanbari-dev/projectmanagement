@@ -1,6 +1,6 @@
+import { Button, TextField } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Btn from "../components/BoardBtn";
@@ -35,7 +35,10 @@ const Home: NextPage = () => {
         dispatch(setStates(_data));
       });
 
-  const addBoard = async (_title: string) =>
+  const addBoard = async (_title: string) => {
+    if (_title == "") {
+      return;
+    }
     await fetch(`http://localhost:4000/api/board/`, {
       method: "post",
       headers: { "Content-Type": "application/json" },
@@ -45,6 +48,7 @@ const Home: NextPage = () => {
       .then((_data) => {
         dispatch(setStates([...boardList, _data]));
       });
+  };
 
   const removeBoard = async (_id: string) =>
     await fetch(`http://localhost:4000/api/board/`, {
@@ -105,7 +109,7 @@ const Home: NextPage = () => {
       </Head>
       {/* <header className="h-12 flex-shrink-0 bg-slate-900">header</header> */}
       <div className="flex-grow flex overflow-hidden">
-        <aside className="bg-sky-900 w-1/4 flex-shrink-0 overflow-auto">
+        <aside className="w-1/4 bg-[#333333] flex-shrink-0 overflow-auto">
           <div className="flex flex-col gap-4 p-4">
             {boardList.map((board) => (
               <Btn
@@ -122,7 +126,7 @@ const Home: NextPage = () => {
               />
             ))}
             <div className="flex gap-2">
-              <input
+              <TextField
                 className="flex-grow max-w-[80%]"
                 type="text"
                 value={addBoardName}
@@ -130,19 +134,20 @@ const Home: NextPage = () => {
                   setAddBoardName(e.target.value);
                 }}
               />
-              <button
-                className="p-2 border"
+              <Button
+                variant="contained"
+                color="success"
                 onClick={() => {
                   addBoard(addBoardName);
                   setAddBoardName("");
                 }}
               >
                 add
-              </button>
+              </Button>
             </div>
           </div>
         </aside>
-        <main className="bg-indigo-300 flex-grow overflow-auto">
+        <main className="bg-gray-900 flex-grow overflow-auto">
           {selectedBoardID && <TodoTemplate />}
         </main>
       </div>

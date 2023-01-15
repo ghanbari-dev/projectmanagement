@@ -12,7 +12,7 @@ const Cells = ({ id, index, task }: Props) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          className={snapshot.isDragging ? "bg-gray-200" : "bg-white"}
+          className={"text-black rounded-xl ring-2 ring-black"+(snapshot.isDragging ? " bg-gray-200" : " bg-white")}
         >
           <div className="p-3">{task.title}</div>
         </div>

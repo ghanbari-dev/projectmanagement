@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { Button, TextField } from "@mui/material";
+import React, { useState } from "react";
 import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -246,8 +247,8 @@ const TodoTemplate = () => {
               ))}
 
               {provided.placeholder}
-              <div className="flex gap-2 w-[200px] md:max-w-[50%] lg:w-[25%]">
-                <input
+              <div className="flex bg-white rounded-xl flex-shrink-0 p-2 gap-2 w-[200px] md:max-w-[50%] lg:w-[25%]">
+                <TextField
                   className="flex-grow max-w-[80%]"
                   type="text"
                   value={addColumnName}
@@ -255,15 +256,17 @@ const TodoTemplate = () => {
                     setAddColumnName(e.target.value);
                   }}
                 />
-                <button
+                <Button
                   className="p-2 border"
+                  variant="contained"
+                  color="success"
                   onClick={() => {
                     addColumn(addColumnName);
                     setAddColumnName("");
                   }}
                 >
                   add
-                </button>
+                </Button>
               </div>
             </div>
           )}

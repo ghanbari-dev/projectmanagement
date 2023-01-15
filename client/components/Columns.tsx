@@ -1,4 +1,6 @@
-import React, { memo, useEffect, useState } from "react";
+import { ArrowBackIos, ArrowForwardIos, DeleteTwoTone } from "@mui/icons-material";
+import { Button, Divider, IconButton, TextField } from "@mui/material";
+import React, { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -9,7 +11,6 @@ import {
 } from "../redux/stateSlice";
 import CellWrapper from "./CellWrapper";
 import { StrictModeDroppable } from "./StrictModeDroppable";
-import { colType, tasksType, taskType } from "./TodoTypes";
 
 type Props = { index: number; removeColumn: any };
 
@@ -38,16 +39,32 @@ const Columns = ({ index, removeColumn }: Props) => {
         dispatch(setStates(_data));
       });
 
+  const getColor = () => {
+    switch (index % 5) {
+      case 0:
+        return "bg-violet-900";
+      case 1:
+        return "bg-rose-900";
+      case 2:
+        return "bg-indigo-700";
+      case 3:
+        return "bg-teal-700";
+      case 4:
+        return "bg-cyan-800";
+    }
+  };
+
   return (
     <Draggable draggableId={colData._id} index={index}>
       {(provided, snapshot) => (
         <div
+          //elevation={2}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           className={
-            "rounded-xl border flex-shrink-0" +
-            (snapshot.isDragging ? " bg-gray-200" : " bg-white") +
+            "rounded-xl border flex-shrink-0 text-white" +
+            (snapshot.isDragging ? " bg-" : ` ${getColor()}`) +
             (open
               ? " p-3 w-[200px] md:max-w-[50%] lg:w-[25%] flex flex-col gap-2"
               : " h-1/2 w-14 pb-4")
@@ -61,42 +78,12 @@ const Columns = ({ index, removeColumn }: Props) => {
                 : " flex-col p-1 h-full")
             }
           >
-            <button
-              className="bg-gray-100 rounded-full p-2"
+            <IconButton
+              //className="bg-gray-100 rounded-full p-2"
               onClick={() => setOpen((prev) => !prev)}
             >
-              {open ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M15.75 19.5L8.25 12l7.5-7.5"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M8.25 4.5l7.5 7.5-7.5 7.5"
-                  />
-                </svg>
-              )}
-            </button>
+              {open ? <ArrowBackIos /> : <ArrowForwardIos />}
+            </IconButton>
             <div className="flex-grow h-full w-full overflow-hidden">
               <div
                 className={
@@ -118,19 +105,19 @@ const Columns = ({ index, removeColumn }: Props) => {
               )}
             </div>
             {!open && (
-              <button
-                className="bg-gray-100 rounded-full p-2"
+              <IconButton
+                color="error"
                 onClick={() => {
                   removeColumn(colData._id);
                 }}
               >
-                X
-              </button>
+                <DeleteTwoTone color="error" />
+              </IconButton>
             )}
           </div>
           {open && (
             <>
-              <hr />
+              <Divider />
               <StrictModeDroppable
                 droppableId={colData._id}
                 key={colData.id}
@@ -139,8 +126,8 @@ const Columns = ({ index, removeColumn }: Props) => {
                 {(provided, snapshot) => (
                   <div
                     className={
-                      "flex flex-col gap-2 flex-grow overflow-y-auto p-3 transition-colors ease-in-out" +
-                      (snapshot.isDraggingOver ? " bg-gray-600" : " bg-white")
+                      "flex flex-col gap-2 flex-grow overflow-y-auto p-3 transition-colors ease-in-out rounded-xl" +
+                      (snapshot.isDraggingOver ? " bg-gray-600" : " bg-white opacity-50")
                     }
                     ref={provided.innerRef}
                     {...provided.droppableProps}
@@ -151,7 +138,8 @@ const Columns = ({ index, removeColumn }: Props) => {
                 )}
               </StrictModeDroppable>
               <div className="flex gap-2">
-                <input
+                <TextField
+                  color="success"
                   className="flex-grow max-w-[80%]"
                   type="text"
                   value={addTaskName}
@@ -159,15 +147,17 @@ const Columns = ({ index, removeColumn }: Props) => {
                     setAddTaskName(e.target.value);
                   }}
                 />
-                <button
-                  className="p-2 border"
+                <Button
+                  variant="contained"
+                  color="success"
+                  //className="p-2 border"
                   onClick={() => {
                     addTask(addTaskName);
                     setAddTaskName("");
                   }}
                 >
                   add
-                </button>
+                </Button>
               </div>
             </>
           )}

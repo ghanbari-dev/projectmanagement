@@ -1,4 +1,10 @@
-import React, { ReactNode, useState } from "react";
+import {
+  CancelTwoTone,
+  CheckCircleTwoTone,
+  DeleteTwoTone,
+} from "@mui/icons-material";
+import { Button, IconButton, TextField } from "@mui/material";
+import React, {  useState } from "react";
 
 type Props = {
   title: string;
@@ -21,23 +27,25 @@ const Btn = ({
   const [edithMode, setEdithMode] = useState(false);
 
   return (
-    <div className={isSelected ? "bg-gray-400" : ""}>
+    <div className="text-black">
       {!edithMode ? (
-        <div className="flex gap-2">
-          <button
-            className="p-2 border flex-grow"
+        <div className="flex items-center gap-2">
+          <Button
+            color="secondary"
+            variant={isSelected ? "contained" : "outlined"}
+            className="p-2 flex-grow"
             onClick={() => selectBoardHandler(boardId)}
             onDoubleClick={() => setEdithMode(true)}
           >
             {title}
-          </button>
-          <button className="p-2 border" onClick={() => removeBoard(boardId)}>
-            x
-          </button>
+          </Button>
+          <IconButton onClick={() => removeBoard(boardId)}>
+            <DeleteTwoTone color="error" />
+          </IconButton>
         </div>
       ) : (
-        <div className="flex gap-2">
-          <input
+        <div className="flex items-center gap-2 bg-white opacity-50 rounded-lg p-2">
+          <TextField
             className="flex-grow max-w-[80%]"
             type="text"
             value={text}
@@ -46,24 +54,22 @@ const Btn = ({
             }}
           />
           <div className="flex flex-col">
-            <button
-              className="p-2 border"
+            <IconButton
               onClick={() => {
                 updateBoard(boardId, text);
                 setEdithMode(false);
               }}
             >
-              +
-            </button>
-            <button
-              className="p-2 border"
+              <CheckCircleTwoTone color="success" />
+            </IconButton>
+            <IconButton
               onClick={() => {
                 setEdithMode(false);
                 setText(title);
               }}
             >
-              -
-            </button>
+              <CancelTwoTone color="error" />
+            </IconButton>
           </div>
         </div>
       )}
