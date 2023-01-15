@@ -1,21 +1,26 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectBoard } from "../redux/stateSlice";
 import Cells from "./Cells";
-import { colType, tasksType } from "./TodoTypes";
+import { colType } from "./TodoTypes";
 
-type Props = { col: colType; tasks: tasksType };
+type Props = { index: number };
 
-const CellWrapper = ({ col, tasks }: Props) => {
+const CellWrapper = ({ index }: Props) => {
+ 
+  const data = useSelector(selectBoard).column[index];
+
   return (
     <>
-      {col.taskIds.map((task, index: number) => (
-        <Cells id={task} index={index} tasks={tasks} key={task} />
+      {data.task.map((task:any, index: number) => (
+        <Cells id={task._id} index={index} task={task} key={task._id} />
       ))}
     </>
   );
 };
 
 const areEqual = (prevProps: any, nextProps: any) => {
-  if (prevProps.col.taskIds === nextProps.col.taskIds) {
+  if (prevProps === nextProps) {
     return true; // donot re-render
   }
   return false; // will re-render

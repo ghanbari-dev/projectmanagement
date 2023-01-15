@@ -13,6 +13,7 @@ const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 const boardRouter = require("./routes/board");
 const columnRouter = require("./routes/column");
+const taskRouter = require("./routes/task");
 const { errorHandler } = require("./middleware/errorMiddleware");
 
 connectDB();
@@ -29,6 +30,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/", indexRouter);
 app.use("/api/board", boardRouter);
 app.use("/api/boards/column", columnRouter);
+app.use("/api/boards/columns/task", taskRouter);
+
 app.use("/users", usersRouter);
 
 app.use(errorHandler);

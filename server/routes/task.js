@@ -1,14 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const {
-  //getColumn,
-  setColumn,
-  updateColumn,
-  deleteColumn,
-  getColumns,
-} = require("../controllers/column");
+  setTask,
+} = require("../controllers/task");
 
-router.route("/").get(getColumns).post(setColumn).delete(deleteColumn).put(updateColumn);
+router.route("/").post(setTask);//.delete(deleteColumn);
 //router.route("/:id").put(updateColumn).delete(deleteColumn);
 //router.route("/:id").get(getColumn);
 

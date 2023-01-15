@@ -1,7 +1,7 @@
-type taskType = { id: string; title: string; content: string };
+export type taskType = { _id: string; title: string;order:number, content: string };
 export type tasksType = { [key: string]: taskType };
 
-export type colType = { id: string; title: string; taskIds: string[] };
+export type colType = { _id: string; title: string;order:number, task: taskType[] };
 export type colsType = { [key: string]: colType };
 
 export type dataType = {

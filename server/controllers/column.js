@@ -79,24 +79,38 @@ const deleteColumn = asyncHandler(async (req, res) => {
   res.status(200).json(myBoards);
 });
 
-/* const updateColumn = asyncHandler(async (req, res) => {
-  const column = await Column.findById(req.body.id);
+const updateColumn = asyncHandler(async (req, res) => {
+  const board = await Board.findById(req.body.id);
 
-  if (!column) {
+  if (!board) {
     res.status(400);
     throw new Error("Column not found");
   }
 
   console.log(req.body);
 
-  const updatedColumn = await Column.findByIdAndUpdate(req.body.id, req.body, {
+  const updatedColumn = await Board.findByIdAndUpdate(req.body.id, {column:req.body.column}, {
     new: true,
   });
 
-  res.status(200).json(updatedColumn);
+  console.log(updatedColumn);
+  
+  const boards = await Board.find();
+
+  const myBoards = [];
+  boards.filter((board) => {
+    board.users.forEach((u) => {
+      if (u.userID === req.body.userID) {
+        myBoards.push(board);
+        return board;
+      }
+    });
+  }); 
+
+  res.status(200).json(myBoards);
 });
 
-const deleteColumn = asyncHandler(async (req, res) => {
+/* const deleteColumn = asyncHandler(async (req, res) => {
   const Column = await Column.findById(req.body.id);
 
   if (!Column) {
@@ -113,6 +127,6 @@ module.exports = {
   //getColumn,
   getColumns,
   setColumn,
-  //updateColumn,
+  updateColumn,
   deleteColumn,
 };

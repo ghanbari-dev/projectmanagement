@@ -1,5 +1,5 @@
 {
-  "board-list": ["board-1", "board-2"],
+  "board-list": ["board-1", "board-2", "board"],
   "board-1": {
     "tasks": {
       "task-1": { "id": "task-1", "title": "task-1", "content": "aaaaaaaa" },
@@ -297,6 +297,94 @@
       }
     },
     "columnOrder": ["column-1", "column-2", "column-3", "column-4"]
+  },
+  "board": {
+    "title": "aaa",
+    "order": -1,
+    "column": [
+      {
+        "_id": "cid-1",
+        "title": "c1",
+        "order": -1,
+        "task": [
+          {
+            "_id":"c1t1",
+            "title": "t1",
+            "order": -1
+          },
+          {
+            "_id":"c1t2",
+            "title": "t2",
+            "order": -1
+          }
+        ]
+      },
+      {
+        "_id": "cid-2",
+        "title": "c2",
+        "order": 1,
+        "task": [
+          {
+            "_id":"c2t1",
+            "title": "t1",
+            "order": -1
+          },
+          {
+            "_id":"c2t2",
+            "title": "t2",
+            "order": -1
+          }
+        ]
+      },
+      {
+        "_id": "cid-3",
+        "title": "c3",
+        "order": 2,
+        "task": [
+          {
+            "_id":"c3t1",
+            "title": "t1",
+            "order": -1
+          },
+          {
+            "_id":"c3t2",
+            "title": "t2",
+            "order": -1
+          }
+        ]
+      },
+      {
+        "_id": "cid-4",
+        "title": "c4",
+        "order": -1,
+        "task": [
+          {
+            "_id":"c4t1",
+            "title": "t1",
+            "order": -1
+          },
+          {
+            "_id":"c4t2",
+            "title": "t2",
+            "order": 1
+          },{
+            "_id":"c4t3",
+            "title": "t3",
+            "order": -1
+          },
+          {
+            "_id":"c4t4",
+            "title": "t4",
+            "order": 2
+          }
+        ]
+      }
+    ],
+    "users": [
+      {
+        "userID": "aaaa",
+        "role": "admin"
+      }
+    ]
   }
 }
-
