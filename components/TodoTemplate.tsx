@@ -67,12 +67,12 @@ const TodoTemplate = () => {
         }
       }
       newCols.sort((a, b) => b.order - a.order);
-      const newState = { ...state, column: newCols };
-      const newStateS: boardType[] = [];
-      boardList.forEach((b) => {
-        if (b.id != newState.id) newStateS.push(b);
-        else newStateS.push(newState);
-      });
+      // const newState = { ...state, column: newCols };
+      // const newStateS: boardType[] = [];
+      // boardList.forEach((b) => {
+      //   if (b.id != newState.id) newStateS.push(b);
+      //   else newStateS.push(newState);
+      // });
 
       dispatch(updateOrders({ cols: newCols, userID: uid }));
       return;
@@ -115,12 +115,12 @@ const TodoTemplate = () => {
           newCols.push({ ...col, task: newTask });
         }
       });
-      const newState: boardType = { ...state, column: newCols };
-      const newStateS: boardType[] = [];
-      boardList.forEach((b) => {
-        if (b.id != newState.id) newStateS.push(b);
-        else newStateS.push(newState);
-      });
+      // const newState: boardType = { ...state, column: newCols };
+      // const newStateS: boardType[] = [];
+      // boardList.forEach((b) => {
+      //   if (b.id != newState.id) newStateS.push(b);
+      //   else newStateS.push(newState);
+      // });
 
       dispatch(updateOrders({ cols: newCols, userID: uid }));
       // updateTaskColumn(newCols);
@@ -170,9 +170,6 @@ const TodoTemplate = () => {
     newTaskS.sort((a, b) => b.order - a.order);
     newTaskD.sort((a, b) => b.order - a.order);
 
-    console.log(newTaskS);
-    console.log(newTaskD);
-
     const newCols: columnType[] = [];
     state.column.forEach((col) => {
       if (col.id == source.droppableId) {
@@ -181,12 +178,12 @@ const TodoTemplate = () => {
         newCols.push({ ...col, task: newTaskD });
       } else newCols.push(col);
     });
-    const newState = { ...state, column: newCols };
-    const newStateS: boardType[] = [];
-    boardList.forEach((b) => {
-      if (b.id != newState.id) newStateS.push(b);
-      else newStateS.push(newState);
-    });
+    // const newState = { ...state, column: newCols };
+    // const newStateS: boardType[] = [];
+    // boardList.forEach((b) => {
+    //   if (b.id != newState.id) newStateS.push(b);
+    //   else newStateS.push(newState);
+    // });
 
     dispatch(updateOrders({ cols: newCols, userID: uid }));
     // updateTaskColumn(newCols);

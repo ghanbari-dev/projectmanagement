@@ -5,13 +5,13 @@ import { boardType, columnType } from "../types/board";
 
 import initData from "../db.json";
 
-export interface StateState {
+export interface StateType {
   Boards: boardType[];
   boardIndex: string;
   uid: string;
 }
 
-const initialState: StateState = {
+const initialState: StateType = {
   ...initData,
 };
 
@@ -36,6 +36,7 @@ export const stateSlice = createSlice({
       const data: boardType = {
         id: "b_" + new Date().toJSON(),
         title: title,
+        favorite: false,
         users: {
           id: uid,
           userID: uid,
@@ -64,6 +65,15 @@ export const stateSlice = createSlice({
         if (board.id === id) selected.push(index);
       });
       if (selected.length > 0) state.Boards[selected[0]].title = title;
+    },
+    setFavoriteBoard: (state, action: PayloadAction<string>) => {
+      const selected: number[] = [];
+      state.Boards.filter((board, index) => {
+        if (board.id === action.payload) selected.push(index);
+      });
+      if (selected.length > 0)
+        state.Boards[selected[0]].favorite =
+          !state.Boards[selected[0]].favorite;
     },
     addColumn: (
       state,
@@ -200,6 +210,13 @@ export const stateSlice = createSlice({
       });
       if (selected.length > 0) state.Boards[selected[0]].column = cols;
     },
+    updateBoardsOrders: (
+      state,
+      action: PayloadAction<{ boards: boardType[]; userID: string }>
+    ) => {
+      const { boards } = action.payload;
+      state.Boards = boards;
+    },
   },
 });
 
@@ -209,6 +226,7 @@ export const {
   addBoard,
   removeBoard,
   updateBoard,
+  setFavoriteBoard,
   setBoardID,
   addColumn,
   removeColumn,
@@ -217,6 +235,7 @@ export const {
   removeTask,
   updateTask,
   updateOrders,
+  updateBoardsOrders,
 } = stateSlice.actions;
 
 export const selectUID = (state: RootState) => state.Boards.uid;

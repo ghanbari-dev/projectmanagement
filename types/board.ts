@@ -1,12 +1,12 @@
 export type boardType = {
   id: string;
   title: string;
+  favorite: boolean;
   users: {
     id: string;
     userID: string;
     role: string;
   };
-
   order: number;
   column: columnType[];
 };

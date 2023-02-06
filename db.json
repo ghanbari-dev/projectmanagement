@@ -3,6 +3,7 @@
     {
       "id": "b_2023-02-06T00:11:21.622Z",
       "title": "aaa",
+      "favorite":false,
       "users": {
         "id": "63bec66661b7a920cc2a0dc2",
         "userID": "63bec66661b7a920cc2a0dc2",
@@ -71,6 +72,7 @@
     {
       "id": "b_2023-02-06T00:11:23.995Z",
       "title": "bbb",
+      "favorite":false,
       "users": {
         "id": "63bec66661b7a920cc2a0dc2",
         "userID": "63bec66661b7a920cc2a0dc2",
@@ -139,6 +141,7 @@
     {
       "id": "b_2023-02-06T00:11:26.579Z",
       "title": "ccc",
+      "favorite":true,
       "users": {
         "id": "63bec66661b7a920cc2a0dc2",
         "userID": "63bec66661b7a920cc2a0dc2",

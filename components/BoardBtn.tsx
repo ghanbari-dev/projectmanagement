@@ -3,21 +3,28 @@ import {
   CheckCircleTwoTone,
   DeleteTwoTone,
   EditTwoTone,
+  FavoriteTwoTone,
+  PanToolTwoTone,
 } from "@mui/icons-material";
 import { Button, IconButton, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { removeBoard, updateBoard } from "../redux/stateSlice";
+import {
+  removeBoard,
+  setFavoriteBoard,
+  updateBoard,
+} from "../redux/stateSlice";
+import { boardType } from "../types/board";
 
 type Props = {
-  title: string;
-  boardId: string;
+  board: boardType;
   selectBoardHandler: (_id: string) => void;
   isSelected: boolean;
+  open: boolean;
 };
 
-const Btn = ({ title, boardId, selectBoardHandler, isSelected }: Props) => {
-  const [text, setText] = useState(title);
+const BoardBtn = ({ board, selectBoardHandler, isSelected, open }: Props) => {
+  const [text, setText] = useState(board.title);
   const [edithMode, setEdithMode] = useState(false);
   const dispatch = useDispatch();
 
@@ -30,24 +37,55 @@ const Btn = ({ title, boardId, selectBoardHandler, isSelected }: Props) => {
 
   return (
     <div className="text-black">
-      {!edithMode ? (
-        <div className="flex items-center gap-2">
+      {!open ? (
+        <div className="flex flex-col items-center gap-2">
           <Button
+            fullWidth
             color="secondary"
             variant={isSelected ? "contained" : "outlined"}
             className="p-2 flex-grow"
-            onClick={() => selectBoardHandler(boardId)}
+            onClick={() => selectBoardHandler(board.id)}
             // onDoubleClick={() => setEdithMode(true)}
           >
-            {title}
+            {board.title}
           </Button>
-          <div className="flex items-center justify-center">
-            <IconButton size="small" onClick={() => setEdithMode(true)}>
-              <EditTwoTone color="primary" />
-            </IconButton>
-            <IconButton size="small" onClick={() => removeBoards(boardId)}>
-              <DeleteTwoTone color="error" />
-            </IconButton>
+        </div>
+      ) : !edithMode ? (
+        <div className="flex flex-col items-center gap-2">
+          <Button
+            fullWidth
+            color="secondary"
+            variant={isSelected ? "contained" : "outlined"}
+            className="p-2 flex-grow"
+            onClick={() => selectBoardHandler(board.id)}
+            // onDoubleClick={() => setEdithMode(true)}
+          >
+            {board.title}
+          </Button>
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center">
+              <IconButton size="small" onClick={() => removeBoards(board.id)}>
+                <DeleteTwoTone color="warning" />
+              </IconButton>
+              <IconButton size="small" onClick={() => setEdithMode(true)}>
+                <EditTwoTone color="primary" />
+              </IconButton>
+            </div>
+            <div className="flex items-center">
+              <IconButton size="small">
+                <PanToolTwoTone color="secondary" />
+              </IconButton>
+              <IconButton
+                size="small"
+                onClick={() => {
+                  dispatch(setFavoriteBoard(board.id));
+                }}
+              >
+                <FavoriteTwoTone
+                  color={board.favorite ? "error" : "disabled"}
+                />
+              </IconButton>
+            </div>
           </div>
         </div>
       ) : (
@@ -63,7 +101,7 @@ const Btn = ({ title, boardId, selectBoardHandler, isSelected }: Props) => {
           <div className="flex flex-col">
             <IconButton
               onClick={() => {
-                updateBoards(boardId, text);
+                updateBoards(board.id, text);
                 setEdithMode(false);
               }}
             >
@@ -72,7 +110,7 @@ const Btn = ({ title, boardId, selectBoardHandler, isSelected }: Props) => {
             <IconButton
               onClick={() => {
                 setEdithMode(false);
-                setText(title);
+                setText(board.title);
               }}
             >
               <CancelTwoTone color="error" />
@@ -84,4 +122,4 @@ const Btn = ({ title, boardId, selectBoardHandler, isSelected }: Props) => {
   );
 };
 
-export default Btn;
+export default BoardBtn;
