@@ -10,7 +10,7 @@ import {
   selectStates,
   selectUID,
   setBoardID,
-  setStates,
+  addBoard,
 } from "../redux/stateSlice";
 
 const Home: NextPage = () => {
@@ -24,70 +24,13 @@ const Home: NextPage = () => {
 
   //const [boardList, setBoardList] = useState<boardType[]>(state);
 
-  const getBoard = async () =>
-    await fetch(`http://localhost:4000/api/board`, {
-      method: "put",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userID: uid }),
-    })
-      .then((res) => res.json())
-      .then((_data) => {
-        dispatch(setStates(_data));
-      });
-
-  const addBoard = async (_title: string) => {
-    if (_title == "") {
-      return;
-    }
-    await fetch(`http://localhost:4000/api/board/`, {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: _title, userID: uid }),
-    })
-      .then((res) => res.json())
-      .then((_data) => {
-        dispatch(setStates([...boardList, _data]));
-      });
+  const addBoards = (_title: string) => {
+    dispatch(addBoard({ uid, title: _title }));
   };
 
-  const removeBoard = async (_id: string) =>
-    await fetch(`http://localhost:4000/api/board/`, {
-      method: "delete",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: _id }),
-    })
-      .then((res) => res.json())
-      .then((_data) => {
-        const tempBoards = boardList.filter((board) => board.id != _data.id);
-        dispatch(setStates(tempBoards));
-        if (_id == selectedBoardID) {
-          dispatch(setBoardID(""));
-        }
-      });
-
-  const updateBoard = async (_id: string, _title: string) => {
-    await fetch(`http://localhost:4000/api/board/update`, {
-      method: "put",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: _id, title: _title }),
-    })
-      .then((res) => res.json())
-      .then((_data) => {
-        const tempBoard: any[] = [];
-        boardList.forEach((board) => {
-          if (board.id == _id) {
-            tempBoard.push(_data);
-          } else {
-            tempBoard.push(board);
-          }
-        });
-
-        dispatch(setStates(tempBoard));
-      });
-  };
 
   useEffect(() => {
-    getBoard();
+    // getBoard(); TODO:
   }, []);
 
   /* useEffect(() => {
@@ -116,10 +59,7 @@ const Home: NextPage = () => {
                 isSelected={board.id == selectedBoardID}
                 title={board.title}
                 boardId={board.id}
-                removeBoard={removeBoard}
-                updateBoard={updateBoard}
                 selectBoardHandler={() => {
-                  //selectBoardHandler
                   dispatch(setBoardID(board.id));
                 }}
                 key={board.id}
@@ -138,7 +78,7 @@ const Home: NextPage = () => {
                 variant="contained"
                 color="success"
                 onClick={() => {
-                  addBoard(addBoardName);
+                  addBoards(addBoardName);
                   setAddBoardName("");
                 }}
               >

@@ -2,29 +2,31 @@ import {
   CancelTwoTone,
   CheckCircleTwoTone,
   DeleteTwoTone,
+  EditTwoTone,
 } from "@mui/icons-material";
 import { Button, IconButton, TextField } from "@mui/material";
-import React, {  useState } from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { removeBoard, updateBoard } from "../redux/stateSlice";
 
 type Props = {
   title: string;
   boardId: string;
-  removeBoard: (_id: string) => Promise<void>;
-  updateBoard: (_id: string, title: string) => Promise<void>;
   selectBoardHandler: (_id: string) => void;
   isSelected: boolean;
 };
 
-const Btn = ({
-  title,
-  boardId,
-  removeBoard,
-  updateBoard,
-  selectBoardHandler,
-  isSelected,
-}: Props) => {
+const Btn = ({ title, boardId, selectBoardHandler, isSelected }: Props) => {
   const [text, setText] = useState(title);
   const [edithMode, setEdithMode] = useState(false);
+  const dispatch = useDispatch();
+
+  const removeBoards = (_id: string) => {
+    dispatch(removeBoard(_id));
+  };
+  const updateBoards = (id: string, title: string) => {
+    dispatch(updateBoard({ id, title }));
+  };
 
   return (
     <div className="text-black">
@@ -35,13 +37,18 @@ const Btn = ({
             variant={isSelected ? "contained" : "outlined"}
             className="p-2 flex-grow"
             onClick={() => selectBoardHandler(boardId)}
-            onDoubleClick={() => setEdithMode(true)}
+            // onDoubleClick={() => setEdithMode(true)}
           >
             {title}
           </Button>
-          <IconButton onClick={() => removeBoard(boardId)}>
-            <DeleteTwoTone color="error" />
-          </IconButton>
+          <div className="flex items-center justify-center">
+            <IconButton size="small" onClick={() => setEdithMode(true)}>
+              <EditTwoTone color="primary" />
+            </IconButton>
+            <IconButton size="small" onClick={() => removeBoards(boardId)}>
+              <DeleteTwoTone color="error" />
+            </IconButton>
+          </div>
         </div>
       ) : (
         <div className="flex items-center gap-2 bg-white opacity-50 rounded-lg p-2">
@@ -56,7 +63,7 @@ const Btn = ({
           <div className="flex flex-col">
             <IconButton
               onClick={() => {
-                updateBoard(boardId, text);
+                updateBoards(boardId, text);
                 setEdithMode(false);
               }}
             >

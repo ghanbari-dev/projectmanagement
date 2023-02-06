@@ -6,12 +6,13 @@ import {
   selectBoard,
   selectStates,
   selectUID,
-  setStates,
+  addColumn,
+  updateOrders,
 } from "../redux/stateSlice";
+import { boardType, columnType, taskType } from "../types/board";
 import Columns from "./Columns";
 
 import { StrictModeDroppable } from "./StrictModeDroppable";
-import { colType, taskType } from "./TodoTypes";
 
 const TodoTemplate = () => {
   const dispatch = useDispatch();
@@ -21,41 +22,9 @@ const TodoTemplate = () => {
 
   const [addColumnName, setAddColumnName] = useState("");
 
-  const addColumn = async (_title: string) =>
-    await fetch(`http://localhost:4000/api/boards/column`, {
-      method: "post",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title: _title, id: state.id, userID: uid }),
-    })
-      .then((res) => res.json())
-      .then((_data) => {
-        console.log(_data);
-        dispatch(setStates(_data));
-      });
-
-  const removeColumn = async (_id: string) =>
-    await fetch(`http://localhost:4000/api/boards/column`, {
-      method: "delete",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: state.id, colID: _id, userID: uid }),
-    })
-      .then((res) => res.json())
-      .then((_data) => {
-        console.log(_data);
-        dispatch(setStates(_data));
-      });
-
-  const updateTaskColumn = async (_column: any) =>
-    await fetch(`http://localhost:4000/api/boards/column`, {
-      method: "put",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ column: _column, id: state.id, userID: uid }),
-    })
-      .then((res) => res.json())
-      .then((_data) => {
-        console.log(_data);
-        dispatch(setStates(_data));
-      });
+  const addColumns = async (title: string) => {
+    dispatch(addColumn({ title, userID: uid }));
+  };
 
   const onDragEnd = (res: DropResult) => {
     const { destination, source, draggableId, type } = res;
@@ -71,9 +40,11 @@ const TodoTemplate = () => {
       return;
     }
 
+    if (state === undefined) return;
+
     if (type === "column") {
-      const newCols: any[] = [];
-      state.column.forEach((col: any) => {
+      const newCols: columnType[] = [];
+      state.column.forEach((col) => {
         newCols.push({ ...col });
       });
       for (let _ind = 0; _ind < newCols.length; _ind++) {
@@ -97,21 +68,21 @@ const TodoTemplate = () => {
       }
       newCols.sort((a, b) => b.order - a.order);
       const newState = { ...state, column: newCols };
-      const newStateS: any[] = [];
+      const newStateS: boardType[] = [];
       boardList.forEach((b) => {
         if (b.id != newState.id) newStateS.push(b);
         else newStateS.push(newState);
       });
 
-      updateTaskColumn(newCols);
+      dispatch(updateOrders({ cols: newCols, userID: uid }));
       return;
     }
 
     if (source.droppableId == destination.droppableId) {
-      const newTask: any[] = [];
+      const newTask: taskType[] = [];
       state.column
-        .find((e: taskType) => e._id == source.droppableId)
-        .task.forEach((task: any) => {
+        ?.find((e) => e.id == source.droppableId)
+        ?.task.forEach((task) => {
           newTask.push({ ...task });
         });
 
@@ -136,35 +107,34 @@ const TodoTemplate = () => {
       }
 
       newTask.sort((a, b) => b.order - a.order);
-      const newCols: any[] = [];
-      state.column.forEach((col: any) => {
-        if (col._id != source.droppableId) {
+      const newCols: columnType[] = [];
+      state.column.forEach((col) => {
+        if (col.id != source.droppableId) {
           newCols.push(col);
         } else {
           newCols.push({ ...col, task: newTask });
         }
       });
-      const newState = { ...state, column: newCols };
-      const newStateS: any[] = [];
+      const newState: boardType = { ...state, column: newCols };
+      const newStateS: boardType[] = [];
       boardList.forEach((b) => {
         if (b.id != newState.id) newStateS.push(b);
         else newStateS.push(newState);
       });
 
-      updateTaskColumn(newCols);
+      dispatch(updateOrders({ cols: newCols, userID: uid }));
+      // updateTaskColumn(newCols);
       return;
     }
 
-    const newTaskD: any[] = [];
-    const tempD = state.column.find(
-      (e: taskType) => e._id == destination.droppableId
-    ).task;
-    const tempS = state.column.find(
-      (e: taskType) => e._id == source.droppableId
-    ).task;
+    const newTaskD: taskType[] = [];
+    const tempD: taskType[] =
+      state.column?.find((e) => e.id == destination.droppableId)?.task || [];
+    const tempS =
+      state.column?.find((e) => e.id == source.droppableId)?.task || [];
 
     if (tempD.length > 0) {
-      tempD.forEach((task: any, index: number) => {
+      tempD.forEach((task, index: number) => {
         if (index == destination.index) {
           newTaskD.push({
             ...tempS[source.index],
@@ -182,10 +152,10 @@ const TodoTemplate = () => {
         ...tempS[source.index],
       });
 
-    const newTaskS: any[] = [];
+    const newTaskS: taskType[] = [];
     state.column
-      .find((e: taskType) => e._id == source.droppableId)
-      .task.forEach((task: any, index: number) => {
+      .find((e) => e.id == source.droppableId)
+      ?.task.forEach((task, index: number) => {
         if (index != source.index) newTaskS.push({ ...task });
       });
 
@@ -203,22 +173,23 @@ const TodoTemplate = () => {
     console.log(newTaskS);
     console.log(newTaskD);
 
-    const newCols: any[] = [];
-    state.column.forEach((col: any) => {
-      if (col._id == source.droppableId) {
+    const newCols: columnType[] = [];
+    state.column.forEach((col) => {
+      if (col.id == source.droppableId) {
         newCols.push({ ...col, task: newTaskS });
-      } else if (col._id == destination.droppableId) {
+      } else if (col.id == destination.droppableId) {
         newCols.push({ ...col, task: newTaskD });
       } else newCols.push(col);
     });
     const newState = { ...state, column: newCols };
-    const newStateS: any[] = [];
+    const newStateS: boardType[] = [];
     boardList.forEach((b) => {
       if (b.id != newState.id) newStateS.push(b);
       else newStateS.push(newState);
     });
 
-    updateTaskColumn(newCols);
+    dispatch(updateOrders({ cols: newCols, userID: uid }));
+    // updateTaskColumn(newCols);
   };
 
   return (
@@ -238,12 +209,8 @@ const TodoTemplate = () => {
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
-              {state.column.map((col: colType, index: number) => (
-                <Columns
-                  key={col._id}
-                  index={index}
-                  removeColumn={removeColumn}
-                />
+              {state?.column.map((col, index) => (
+                <Columns key={col.id} index={index} />
               ))}
 
               {provided.placeholder}
@@ -261,7 +228,7 @@ const TodoTemplate = () => {
                   variant="contained"
                   color="success"
                   onClick={() => {
-                    addColumn(addColumnName);
+                    addColumns(addColumnName);
                     setAddColumnName("");
                   }}
                 >

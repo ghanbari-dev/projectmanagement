@@ -8,14 +8,21 @@ import type { AppProps } from "next/app";
 
 import { store } from "../redux/store";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+
 import createEmotionCache from "../utils/createEmotionCache";
 import { CacheProvider, EmotionCache } from "@emotion/react";
+import { CssBaseline } from "@mui/material";
 
 const clientSideEmotionCache = createEmotionCache();
 
 interface MyAppProps extends AppProps {
   emotionCache?: EmotionCache;
 }
+
+const persistor = persistStore(store);
+
 
 function MyApp({
   Component,
@@ -24,9 +31,12 @@ function MyApp({
 }: MyAppProps) {
   return (
     <Provider store={store}>
-      <CacheProvider value={emotionCache}>
-        <Component {...pageProps} />
-      </CacheProvider>
+      <PersistGate persistor={persistor}>
+        <CacheProvider value={emotionCache}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </CacheProvider>
+      </PersistGate>
     </Provider>
   );
 }
