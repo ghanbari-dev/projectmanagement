@@ -40,15 +40,15 @@ const Columns = ({ index }: Props) => {
   const getColor = () => {
     switch (index % 5) {
       case 0:
-        return "bg-violet-900";
+        return "text-violet-900 border-violet-900";
       case 1:
-        return "bg-rose-900";
+        return "text-rose-900 border-rose-900";
       case 2:
-        return "bg-indigo-700";
+        return "text-teal-700 border-teal-700";
       case 3:
-        return "bg-teal-700";
+        return "text-indigo-700 border-indigo-700";
       case 4:
-        return "bg-cyan-800";
+        return "text-cyan-800 border-cyan-800";
     }
   };
 
@@ -65,10 +65,10 @@ const Columns = ({ index }: Props) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           className={
-            "rounded-xl border flex-shrink-0 text-white" +
-            (snapshot.isDragging ? " bg-" : ` ${getColor()}`) +
+            "rounded-xl border-2 flex-shrink-0 font-bold" +
+            (snapshot.isDragging ? "" : ` ${getColor()} neon-7`) +
             (open
-              ? " p-3 w-[200px] md:max-w-[50%] lg:w-[25%] flex flex-col gap-2"
+              ? " p-4 w-[200px] md:max-w-[50%] lg:w-[25%] flex flex-col gap-2"
               : " h-1/2 w-14 pb-4")
           }
         >
@@ -81,6 +81,7 @@ const Columns = ({ index }: Props) => {
             }
           >
             <IconButton
+            color="inherit"
               //className="bg-gray-100 rounded-full p-2"
               onClick={() => setOpen((prev) => !prev)}
             >
@@ -102,7 +103,7 @@ const Columns = ({ index }: Props) => {
                       {colData.title}
                     </div>
                     {open && (
-                      <div className="text-xs text-gray-400">
+                      <div className="text-xs ">
                         {`${colData.task?.length || 0} ${
                           colData.task?.length > 1 ? "items" : "item"
                         }`}
@@ -178,10 +179,10 @@ const Columns = ({ index }: Props) => {
                 {(provided, snapshot) => (
                   <div
                     className={
-                      "flex flex-col gap-2 flex-grow overflow-y-auto p-3 transition-colors ease-in-out rounded-xl" +
+                      "flex flex-col gap-3 flex-grow overflow-y-auto p-3 transition-colors ease-in-out rounded-xl" +
                       (snapshot.isDraggingOver
-                        ? " bg-gray-600"
-                        : " bg-white opacity-50")
+                        ? " border-2"
+                        : " border-2 border-inherit neon-5")
                     }
                     ref={provided.innerRef}
                     {...provided.droppableProps}
