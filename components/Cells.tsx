@@ -27,8 +27,8 @@ const Cells = ({ index, task, colID }: Props) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           className={
-            "rounded-xl border" +
-            (snapshot.isDragging ? " text-white" : " border-inherit neon-3")
+            "rounded-xl border-2" +
+            (snapshot.isDragging ? " text-black border-black" : " border-inherit")// neon-3")
           }
         >
           {!edithMode ? (

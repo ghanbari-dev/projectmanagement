@@ -4,9 +4,11 @@ import {
   DeleteTwoTone,
   EditTwoTone,
   FavoriteTwoTone,
-  PanToolTwoTone,
+  HeartBrokenTwoTone,
+  MoreHorizTwoTone,
+  // PanToolTwoTone,
 } from "@mui/icons-material";
-import { Button, IconButton, TextField } from "@mui/material";
+import { Button, IconButton, Popover, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -35,6 +37,19 @@ const BoardBtn = ({ board, selectBoardHandler, isSelected, open }: Props) => {
     dispatch(updateBoard({ id, title }));
   };
 
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const id = open ? "simple-popover" : undefined;
+
   return (
     <div className="text-black">
       {!open ? (
@@ -51,42 +66,85 @@ const BoardBtn = ({ board, selectBoardHandler, isSelected, open }: Props) => {
           </Button>
         </div>
       ) : !edithMode ? (
-        <div className="flex flex-col items-center gap-2">
-          <Button
-            fullWidth
-            color="secondary"
-            variant={isSelected ? "contained" : "outlined"}
+        <div
+          className={
+            "flex items-center gap-2 rounded-lg" +
+            (isSelected ? " bg-[#5030E514]" : "")
+          }
+        >
+          <div
             className="p-2 flex-grow"
             onClick={() => selectBoardHandler(board.id)}
             // onDoubleClick={() => setEdithMode(true)}
           >
             {board.title}
-          </Button>
-          <div className="flex items-center justify-between w-full">
-            <div className="flex items-center">
-              <IconButton size="small" onClick={() => removeBoards(board.id)}>
-                <DeleteTwoTone color="warning" />
-              </IconButton>
-              <IconButton size="small" onClick={() => setEdithMode(true)}>
-                <EditTwoTone color="primary" />
-              </IconButton>
-            </div>
-            <div className="flex items-center">
-              <IconButton size="small">
-                <PanToolTwoTone color="secondary" />
-              </IconButton>
-              <IconButton
-                size="small"
+          </div>
+          <IconButton size="small" onClick={handleClick}>
+            <MoreHorizTwoTone />
+          </IconButton>
+          <Popover
+            id={id}
+            open={!!anchorEl}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+          >
+            <div className="flex flex-col items-center justify-center w-full p-2">
+              <div
+                className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
                 onClick={() => {
-                  dispatch(setFavoriteBoard(board.id));
+                  removeBoards(board.id);
+                  setAnchorEl(null);
                 }}
               >
-                <FavoriteTwoTone
-                  color={board.favorite ? "error" : "disabled"}
-                />
-              </IconButton>
+                <div>Delete</div>
+                <IconButton size="small">
+                  <DeleteTwoTone color="warning" />
+                </IconButton>
+              </div>
+              <div
+                className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
+                onClick={() => {
+                  setEdithMode(true);
+                  setAnchorEl(null);
+                }}
+              >
+                <div>Edith</div>
+                <IconButton size="small">
+                  <EditTwoTone color="primary" />
+                </IconButton>
+              </div>
+              {/* <div className="flex justify-between items-center w-full">
+                <div>Drag</div>
+                <IconButton size="small">
+                  <PanToolTwoTone color="secondary" />
+                </IconButton>
+              </div> */}
+              <div
+                className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
+                onClick={() => {
+                  dispatch(setFavoriteBoard(board.id));
+                  setAnchorEl(null);
+                }}
+              >
+                <div>Favorite</div>
+                <IconButton size="small">
+                  {board.favorite ? (
+                    <HeartBrokenTwoTone color="disabled" />
+                  ) : (
+                    <FavoriteTwoTone color="error" />
+                  )}
+                </IconButton>
+              </div>
             </div>
-          </div>
+          </Popover>
         </div>
       ) : (
         <div className="flex items-center gap-2 bg-white opacity-50 rounded-lg p-2">

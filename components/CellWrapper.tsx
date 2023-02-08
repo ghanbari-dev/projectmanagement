@@ -18,6 +18,7 @@ const CellWrapper = ({ index ,colID}: Props) => {
   );
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const areEqual = (prevProps: any, nextProps: any) => {
   if (prevProps === nextProps) {
     return true; // donot re-render

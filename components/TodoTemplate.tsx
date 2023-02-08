@@ -4,12 +4,11 @@ import { DragDropContext, DropResult } from "react-beautiful-dnd";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectBoard,
-  selectStates,
   selectUID,
   addColumn,
   updateOrders,
 } from "../redux/stateSlice";
-import { boardType, columnType, taskType } from "../types/board";
+import { columnType, taskType } from "../types/board";
 import Columns from "./Columns";
 
 import { StrictModeDroppable } from "./StrictModeDroppable";
@@ -17,7 +16,6 @@ import { StrictModeDroppable } from "./StrictModeDroppable";
 const TodoTemplate = () => {
   const dispatch = useDispatch();
   const uid = useSelector(selectUID);
-  const boardList = useSelector(selectStates);
   const state = useSelector(selectBoard);
 
   const [addColumnName, setAddColumnName] = useState("");
@@ -27,7 +25,7 @@ const TodoTemplate = () => {
   };
 
   const onDragEnd = (res: DropResult) => {
-    const { destination, source, draggableId, type } = res;
+    const { destination, source, type } = res;
 
     if (!destination) {
       return;
@@ -201,7 +199,7 @@ const TodoTemplate = () => {
             <div
               className={
                 "flex-grow flex gap-5 items-start p-3 h-full transition-colors ease-in-out" +
-                (snapshot.isDraggingOver ? " bg-gray-600" : "")
+                (snapshot.isDraggingOver ? " bg-gray-100 text-black" : " ")
               }
               ref={provided.innerRef}
               {...provided.droppableProps}

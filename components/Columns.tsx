@@ -65,10 +65,10 @@ const Columns = ({ index }: Props) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           className={
-            "rounded-xl border-2 flex-shrink-0 font-bold" +
-            (snapshot.isDragging ? "" : ` ${getColor()} neon-7`) +
+            "rounded-xl border-4 flex-shrink-0 font-bold" +
+            (snapshot.isDragging ? " border-black" : ` ${getColor()}`) +
             (open
-              ? " p-4 w-[200px] md:max-w-[50%] lg:w-[25%] flex flex-col gap-2"
+              ? " p-4 w-[200px] md:max-w-[45%] lg:w-[20%] flex flex-col gap-2"
               : " h-1/2 w-14 pb-4")
           }
         >
@@ -81,7 +81,7 @@ const Columns = ({ index }: Props) => {
             }
           >
             <IconButton
-            color="inherit"
+              color="inherit"
               //className="bg-gray-100 rounded-full p-2"
               onClick={() => setOpen((prev) => !prev)}
             >
@@ -181,8 +181,8 @@ const Columns = ({ index }: Props) => {
                     className={
                       "flex flex-col gap-3 flex-grow overflow-y-auto p-3 transition-colors ease-in-out rounded-xl" +
                       (snapshot.isDraggingOver
-                        ? " border-2"
-                        : " border-2 border-inherit neon-5")
+                        ? " border-2 border-black"
+                        : " border-2 border-inherit") // neon-5")
                     }
                     ref={provided.innerRef}
                     {...provided.droppableProps}
