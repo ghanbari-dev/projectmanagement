@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { useSelector } from "react-redux";
-import {  selectColumn } from "../redux/stateSlice";
-import { columnType } from "../types/board";
+import {  selectColumn } from "../../redux/stateSlice";
+import { columnType } from "../../types/board";
 import Cells from "./Cells";
 
 type Props = { index: number , colID:string };

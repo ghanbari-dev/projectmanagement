@@ -16,9 +16,9 @@ import {
   selectColumn,
   addTask,
   updateColumn,
-} from "../redux/stateSlice";
+} from "../../redux/stateSlice";
 import CellWrapper from "./CellWrapper";
-import { StrictModeDroppable } from "./StrictModeDroppable";
+import StrictModeDroppable from "./StrictModeDroppable";
 
 type Props = { index: number };
 
@@ -65,11 +65,9 @@ const Columns = ({ index }: Props) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           className={
-            "rounded-xl border-4 flex-shrink-0 font-bold" +
+            "rounded-2xl bg-[#F5F5F5] flex-shrink-0 font-bold p-5" +
             (snapshot.isDragging ? " border-black" : ` ${getColor()}`) +
-            (open
-              ? " p-4 w-[200px] md:max-w-[45%] lg:w-[20%] flex flex-col gap-2"
-              : " h-1/2 w-14 pb-4")
+            (open ? " p-4 w-[354px] flex flex-col gap-2" : " h-1/2 w-14 pb-4")
           }
         >
           <div
@@ -104,9 +102,7 @@ const Columns = ({ index }: Props) => {
                     </div>
                     {open && (
                       <div className="text-xs ">
-                        {`${colData.task?.length || 0} ${
-                          colData.task?.length > 1 ? "items" : "item"
-                        }`}
+                        {colData.task?.length || 0}
                       </div>
                     )}
                   </div>
@@ -132,7 +128,7 @@ const Columns = ({ index }: Props) => {
                   )}
                 </>
               ) : (
-                <div className="flex items-center gap-2 bg-white opacity-50 rounded-lg p-2 w-64 mt-10 rotate-90">
+                <div className="flex items-center gap-2 bg-white opacity-50 rounded-md p-2 w-64 mt-10 rotate-90">
                   <TextField
                     className="flex-grow max-w-[80%]"
                     type="text"

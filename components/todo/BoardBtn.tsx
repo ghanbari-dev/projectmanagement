@@ -15,8 +15,8 @@ import {
   removeBoard,
   setFavoriteBoard,
   updateBoard,
-} from "../redux/stateSlice";
-import { boardType } from "../types/board";
+} from "../../redux/stateSlice";
+import { boardType } from "../../types/board";
 
 type Props = {
   board: boardType;
@@ -51,7 +51,7 @@ const BoardBtn = ({ board, selectBoardHandler, isSelected, open }: Props) => {
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <div className="text-black">
+    <div className="">
       {!open ? (
         <div className="flex flex-col items-center gap-2">
           <Button
@@ -68,12 +68,20 @@ const BoardBtn = ({ board, selectBoardHandler, isSelected, open }: Props) => {
       ) : !edithMode ? (
         <div
           className={
-            "flex items-center gap-2 rounded-lg" +
+            "flex items-center gap-4 rounded-md -mx-3 px-3 -my-[10px] py-[10px]" +
             (isSelected ? " bg-[#5030E514]" : "")
           }
         >
+          {board.favorite ? (
+            <FavoriteTwoTone color={isSelected ? "error" : "inherit"} />
+          ) : (
+            <div className="bg-red-600 rounded-full h-2 w-2" />
+          )}
           <div
-            className="p-2 flex-grow"
+            className={
+              "leading-5 font-semibold flex-grow" +
+              (isSelected ? " text-black" : "")
+            }
             onClick={() => selectBoardHandler(board.id)}
             // onDoubleClick={() => setEdithMode(true)}
           >
@@ -147,7 +155,7 @@ const BoardBtn = ({ board, selectBoardHandler, isSelected, open }: Props) => {
           </Popover>
         </div>
       ) : (
-        <div className="flex items-center gap-2 bg-white opacity-50 rounded-lg p-2">
+        <div className="flex items-center gap-2 bg-white opacity-50 rounded-md p-2">
           <TextField
             className="flex-grow max-w-[80%]"
             type="text"

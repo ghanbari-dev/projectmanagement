@@ -8,8 +8,8 @@ import { IconButton, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
-import { removeTask, updateTask } from "../redux/stateSlice";
-import { taskType } from "../types/board";
+import { removeTask, updateTask } from "../../redux/stateSlice";
+import { taskType } from "../../types/board";
 
 type Props = { index: number; task: taskType; colID: string };
 
@@ -28,7 +28,9 @@ const Cells = ({ index, task, colID }: Props) => {
           ref={provided.innerRef}
           className={
             "rounded-xl border-2" +
-            (snapshot.isDragging ? " text-black border-black" : " border-inherit")// neon-3")
+            (snapshot.isDragging
+              ? " text-black border-black"
+              : " border-inherit") // neon-3")
           }
         >
           {!edithMode ? (
@@ -46,7 +48,7 @@ const Cells = ({ index, task, colID }: Props) => {
               </IconButton>
             </div>
           ) : (
-            <div className="flex items-center gap-2 bg-white opacity-50 rounded-lg p-2">
+            <div className="flex items-center gap-2 bg-white opacity-50 rounded-md p-2">
               <TextField
                 className="flex-grow max-w-[80%]"
                 type="text"
