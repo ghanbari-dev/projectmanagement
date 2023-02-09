@@ -131,6 +131,7 @@ const TodoSideBar = ({ open }: Props) => {
                                 dispatch(setBoardID(board.id));
                               }}
                               open={open}
+                              index={index}
                             />
                           </div>
                         )}
@@ -167,6 +168,7 @@ const TodoSideBar = ({ open }: Props) => {
                                 dispatch(setBoardID(board.id));
                               }}
                               open={open}
+                              index={index}
                             />
                           </div>
                         )}

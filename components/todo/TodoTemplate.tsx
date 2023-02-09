@@ -300,8 +300,8 @@ const TodoTemplate = () => {
             {(provided, snapshot) => (
               <div
                 className={
-                  "flex-grow flex gap-5 items-start p-3 h-full transition-colors ease-in-out" +
-                  (snapshot.isDraggingOver ? " bg-gray-100 text-black" : " ")
+                  "flex-grow flex gap-5 items-start p-3 h-full transition-colors ease-in-out rounded-2xl" +
+                  (snapshot.isDraggingOver ? " border-2 border-dashed" : " border-2 border-transparent")
                 }
                 ref={provided.innerRef}
                 {...provided.droppableProps}
@@ -311,7 +311,7 @@ const TodoTemplate = () => {
                 ))}
 
                 {provided.placeholder}
-                <div className="flex bg-white rounded-xl flex-shrink-0 p-2 gap-2 w-[200px] md:max-w-[50%] lg:w-[25%]">
+                <div className="flex bg-white rounded-xl flex-shrink-0 p-2 gap-2 w-[200px]">
                   <TextField
                     className="flex-grow max-w-[80%]"
                     type="text"

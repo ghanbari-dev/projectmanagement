@@ -17,15 +17,23 @@ import {
   updateBoard,
 } from "../../redux/stateSlice";
 import { boardType } from "../../types/board";
+import { getColor } from "../../utils/getColor";
 
 type Props = {
   board: boardType;
   selectBoardHandler: (_id: string) => void;
   isSelected: boolean;
   open: boolean;
+  index: number;
 };
 
-const BoardBtn = ({ board, selectBoardHandler, isSelected, open }: Props) => {
+const BoardBtn = ({
+  board,
+  selectBoardHandler,
+  isSelected,
+  open,
+  index,
+}: Props) => {
   const [text, setText] = useState(board.title);
   const [edithMode, setEdithMode] = useState(false);
   const dispatch = useDispatch();
@@ -48,10 +56,9 @@ const BoardBtn = ({ board, selectBoardHandler, isSelected, open }: Props) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  const id = open ? "simple-popover" : undefined;
 
   return (
-    <div className="">
+    <>
       {!open ? (
         <div className="flex flex-col items-center gap-2">
           <Button
@@ -75,7 +82,7 @@ const BoardBtn = ({ board, selectBoardHandler, isSelected, open }: Props) => {
           {board.favorite ? (
             <FavoriteTwoTone color={isSelected ? "error" : "inherit"} />
           ) : (
-            <div className="bg-red-600 rounded-full h-2 w-2" />
+            <div className={"rounded-full h-2 w-2 " + getColor(index, "bg")} />
           )}
           <div
             className={
@@ -91,7 +98,7 @@ const BoardBtn = ({ board, selectBoardHandler, isSelected, open }: Props) => {
             <MoreHorizTwoTone />
           </IconButton>
           <Popover
-            id={id}
+            id={!!anchorEl ? "simple-popover" : undefined}
             open={!!anchorEl}
             anchorEl={anchorEl}
             onClose={handleClose}
@@ -184,7 +191,7 @@ const BoardBtn = ({ board, selectBoardHandler, isSelected, open }: Props) => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

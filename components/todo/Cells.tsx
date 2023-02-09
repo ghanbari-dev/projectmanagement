@@ -3,8 +3,9 @@ import {
   CheckCircleTwoTone,
   DeleteTwoTone,
   EditTwoTone,
+  MoreHorizTwoTone,
 } from "@mui/icons-material";
-import { IconButton, TextField } from "@mui/material";
+import { IconButton, Popover, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
@@ -19,6 +20,17 @@ const Cells = ({ index, task, colID }: Props) => {
   const [text, setText] = useState(task.title);
   const [edithMode, setEdithMode] = useState(false);
 
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <Draggable draggableId={task.id} index={index} key={task.id}>
       {(provided, snapshot) => (
@@ -27,25 +39,57 @@ const Cells = ({ index, task, colID }: Props) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           className={
-            "rounded-xl border-2" +
-            (snapshot.isDragging
-              ? " text-black border-black"
-              : " border-inherit") // neon-3")
+            "rounded-2xl bg-white p-5" +
+            (snapshot.isDragging ? " border-2 text-black border-black" : " ") // neon-3")
           }
         >
           {!edithMode ? (
             <div className="flex">
               <div className="p-3 flex-grow">{task.title}</div>
-              <IconButton onClick={() => setEdithMode(true)}>
-                <EditTwoTone color="primary" />
+              <IconButton size="small" onClick={handleClick}>
+                <MoreHorizTwoTone />
               </IconButton>
-              <IconButton
-                onClick={() =>
-                  dispatch(removeTask({ colID: colID, taskID: task.id }))
-                }
+              <Popover
+                id={!!anchorEl ? "simple-popover" : undefined}
+                open={!!anchorEl}
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
               >
-                <DeleteTwoTone color="error" />
-              </IconButton>
+                <div className="p-2">
+                  <div
+                    className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
+                    onClick={() => {
+                      setEdithMode(true);
+                      setAnchorEl(null);
+                    }}
+                  >
+                    <div>Edith</div>
+                    <IconButton size="small">
+                      <EditTwoTone color="primary" />
+                    </IconButton>
+                  </div>
+                  <div
+                    className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
+                    onClick={() => {
+                      dispatch(removeTask({ colID: colID, taskID: task.id }));
+                      setAnchorEl(null);
+                    }}
+                  >
+                    <div>Delete</div>
+                    <IconButton size="small">
+                      <DeleteTwoTone color="error" />
+                    </IconButton>
+                  </div>
+                </div>
+              </Popover>
             </div>
           ) : (
             <div className="flex items-center gap-2 bg-white opacity-50 rounded-md p-2">

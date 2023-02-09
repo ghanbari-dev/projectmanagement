@@ -3,6 +3,7 @@ import {
   ArrowForwardIos,
   CancelTwoTone,
   CheckCircleTwoTone,
+  ControlPointTwoTone,
   DeleteTwoTone,
   EditTwoTone,
 } from "@mui/icons-material";
@@ -17,6 +18,7 @@ import {
   addTask,
   updateColumn,
 } from "../../redux/stateSlice";
+import { getColor } from "../../utils/getColor";
 import CellWrapper from "./CellWrapper";
 import StrictModeDroppable from "./StrictModeDroppable";
 
@@ -25,6 +27,8 @@ type Props = { index: number };
 const Columns = ({ index }: Props) => {
   const [open, setOpen] = useState(true);
   const [addTaskName, setAddTaskName] = useState("");
+
+  const [add, setAdd] = useState(false);
 
   const dispatch = useDispatch();
   const colData = useSelector(selectColumn)[index];
@@ -35,21 +39,6 @@ const Columns = ({ index }: Props) => {
 
   const addTasks = (title: string) => {
     dispatch(addTask({ title, userID: uid, colID: colData.id }));
-  };
-
-  const getColor = () => {
-    switch (index % 5) {
-      case 0:
-        return "text-violet-900 border-violet-900";
-      case 1:
-        return "text-rose-900 border-rose-900";
-      case 2:
-        return "text-teal-700 border-teal-700";
-      case 3:
-        return "text-indigo-700 border-indigo-700";
-      case 4:
-        return "text-cyan-800 border-cyan-800";
-    }
   };
 
   const removeColumns = (id: string) => {
@@ -66,48 +55,62 @@ const Columns = ({ index }: Props) => {
           ref={provided.innerRef}
           className={
             "rounded-2xl bg-[#F5F5F5] flex-shrink-0 font-bold p-5" +
-            (snapshot.isDragging ? " border-black" : ` ${getColor()}`) +
-            (open ? " p-4 w-[354px] flex flex-col gap-2" : " h-1/2 w-14 pb-4")
+            (snapshot.isDragging ? " border-2 border-black" : "") +
+            (open ? " p-5 w-[354px] flex flex-col" : " h-[400px] w-[60px] pb-4")
           }
         >
           <div
             className={
               "flex items-center" +
               (open
-                ? " justify-between flex-row-reverse p-4 gap-3 flex-shrink-0"
-                : " flex-col p-1 h-full")
+                ? " justify-between flex-row-reverse flex-shrink-0 mb-5"
+                : " flex-col h-full items-center")
             }
           >
-            <IconButton
-              color="inherit"
-              //className="bg-gray-100 rounded-full p-2"
-              onClick={() => setOpen((prev) => !prev)}
-            >
-              {open ? <ArrowBackIos /> : <ArrowForwardIos />}
-            </IconButton>
-            <>
+            <div className="flex items-center gap-4">
+              {open && (
+                <IconButton
+                  onClick={() => setAdd((prev) => !prev)}
+                  sx={{ height: "24px", width: "24px" }}
+                >
+                  <ControlPointTwoTone />
+                </IconButton>
+              )}
+              <IconButton
+                color="inherit"
+                //className="bg-gray-100 rounded-full p-2"
+                onClick={() => setOpen((prev) => !prev)}
+                sx={{ height: "24px", width: "24px" }}
+              >
+                {open ? <ArrowBackIos /> : <ArrowForwardIos />}
+              </IconButton>
+            </div>
+            <div className={"flex-grow flex items-center"+(open ? "" : " w-5 flex-col")}>
               {!edithMode ? (
                 <>
-                  <div className="flex-grow h-full w-full overflow-hidden">
-                    <div
-                      className={
-                        "flex-grow flex-shrink-0" +
-                        (open
-                          ? ""
-                          : " whitespace-nowrap w-full rotate-90 translate-x-1/2")
-                      }
-                      style={{ transformOrigin: "0 50%" }}
-                    >
-                      {colData.title}
-                    </div>
-                    {open && (
-                      <div className="text-xs ">
-                        {colData.task?.length || 0}
-                      </div>
-                    )}
+                  <div
+                    className={
+                      "w-2 h-2 rounded-full mr-2 " + getColor(index, "bg") +(open ? "":" mt-2")
+                    }
+                  />
+                  <div
+                    className={
+                      "font-medium leading-5 text-[#0D062D] mr-3 flex-shrink-0" +
+                      (open
+                        ? ""
+                        : " whitespace-nowrap w-full rotate-90 translate-x-[15px]")
+                    }
+                    style={{ transformOrigin: "0 50%" }}
+                  >
+                    {colData.title}
                   </div>
+                  {open && (
+                    <div className="text-xs leading-[14px] h-5 w-5 rounded-full bg-[#E0E0E0] text-[#625F6D] flex justify-center items-center">
+                      {colData.task?.length || 0}
+                    </div>
+                  )}
                   {!open && (
-                    <div>
+                    <div className="mt-[230px]">
                       <IconButton
                         color="error"
                         onClick={() => {
@@ -162,11 +165,11 @@ const Columns = ({ index }: Props) => {
                   </div>
                 </div>
               )}
-            </>
+            </div>
           </div>
           {open && (
             <>
-              <Divider />
+              <Divider className={"h-[3px] " + getColor(index, "bg")} />
               <StrictModeDroppable
                 droppableId={colData.id}
                 key={colData.id}
@@ -175,10 +178,10 @@ const Columns = ({ index }: Props) => {
                 {(provided, snapshot) => (
                   <div
                     className={
-                      "flex flex-col gap-3 flex-grow overflow-y-auto p-3 transition-colors ease-in-out rounded-xl" +
+                      "flex flex-col gap-5 flex-grow overflow-y-auto mt-[28px] transition-colors ease-in-out rounded-2xl" +
                       (snapshot.isDraggingOver
-                        ? " border-2 border-black"
-                        : " border-2 border-inherit") // neon-5")
+                        ? " border-2 border-dashed"
+                        : " border-2 border-transparent") // neon-5")
                     }
                     ref={provided.innerRef}
                     {...provided.droppableProps}
@@ -188,28 +191,31 @@ const Columns = ({ index }: Props) => {
                   </div>
                 )}
               </StrictModeDroppable>
-              <div className="flex gap-2">
-                <TextField
-                  color="success"
-                  className="flex-grow max-w-[80%]"
-                  type="text"
-                  value={addTaskName}
-                  onChange={(e) => {
-                    setAddTaskName(e.target.value);
-                  }}
-                />
-                <Button
-                  variant="contained"
-                  color="success"
-                  //className="p-2 border"
-                  onClick={() => {
-                    addTasks(addTaskName);
-                    setAddTaskName("");
-                  }}
-                >
-                  add
-                </Button>
-              </div>
+              {open && add && (
+                <div className="flex gap-2 mt-6">
+                  <TextField
+                    color="success"
+                    className="flex-grow max-w-[80%]"
+                    type="text"
+                    value={addTaskName}
+                    onChange={(e) => {
+                      setAddTaskName(e.target.value);
+                    }}
+                  />
+                  <Button
+                    variant="contained"
+                    color="success"
+                    //className="p-2 border"
+                    onClick={() => {
+                      addTasks(addTaskName);
+                      setAddTaskName("");
+                      setAdd(false);
+                    }}
+                  >
+                    add
+                  </Button>
+                </div>
+              )}
             </>
           )}
         </div>
