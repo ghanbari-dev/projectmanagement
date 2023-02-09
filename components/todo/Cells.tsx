@@ -69,9 +69,9 @@ const Cells = ({ index, task, colID }: Props) => {
               <div
                 className={
                   "px-[6px] py-1 rounded " +
-                  (task?.priority === "Completed"
+                  (task.priority === "Completed"
                     ? "bg-green-100"
-                    : task?.priority === "High"
+                    : task.priority === "High"
                     ? "bg-red-100"
                     : "bg-orange-100")
                 }
@@ -81,14 +81,14 @@ const Cells = ({ index, task, colID }: Props) => {
                   lineHeight="14px"
                   fontWeight="500"
                   color={
-                    task?.priority === "Completed"
+                    task.priority === "Completed"
                       ? "green"
-                      : task?.priority === "High"
+                      : task.priority === "High"
                       ? "red"
                       : "orange"
                   }
                 >
-                  {task?.priority || "Low"}
+                  {task.priority}
                 </Typography>
               </div>
               <IconButton size="small" onClick={handleClick}>
@@ -282,23 +282,38 @@ const Cells = ({ index, task, colID }: Props) => {
                 >
                   <MenuItem value="Low">Low</MenuItem>
                   <MenuItem value="High">High</MenuItem>
-                  <MenuItem value="Complete">Complete</MenuItem>
+                  <MenuItem value="Completed">Completed</MenuItem>
                 </Select>
               </FormControl>
               <TextField
                 label="users"
                 value={tempTask.users}
-                
+                onChange={(e) =>
+                  setTempTask({
+                    ...tempTask,
+                    users: e.target.value.split(","),
+                  })
+                }
               />
               <TextField
                 label="comments"
                 value={tempTask.comments}
-
+                onChange={(e) =>
+                  setTempTask({
+                    ...tempTask,
+                    comments: e.target.value.split(","),
+                  })
+                }
               />
               <TextField
                 label="files"
                 value={tempTask.files}
-                
+                onChange={(e) =>
+                  setTempTask({
+                    ...tempTask,
+                    files: e.target.value.split(","),
+                  })
+                }
               />
               <Button
                 variant="contained"

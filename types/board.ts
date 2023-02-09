@@ -22,9 +22,9 @@ export type taskType = {
   id: string;
   title: string;
   order: number;
+  priority: "Low" | "High" | "Completed";
   description?: string;
   image?: string;
-  priority?: "Low" | "High" | "Completed";
   users?: string[];
   comments?: string[];
   files?: string[];

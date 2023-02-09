@@ -5,6 +5,7 @@ import { boardType, columnType, taskType } from "../types/board";
 
 import initData from "../db.json";
 
+// const initdata: StateType = initData as unknown as StateType;
 export interface StateType {
   Boards: boardType[];
   boardIndex: string;
@@ -12,7 +13,7 @@ export interface StateType {
 }
 
 const initialState: StateType = {
-  ...initData,
+  ...initData as unknown as StateType,
 };
 
 export const stateSlice = createSlice({
@@ -140,6 +141,7 @@ export const stateSlice = createSlice({
         if (colIndex.length > 0) {
           state.Boards[selected[0]].column[colIndex[0]].task.push({
             id: "t_" + new Date().toJSON(),
+            priority:"Low",
             order: -1,
             title,
           });
