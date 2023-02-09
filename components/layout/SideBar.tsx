@@ -7,14 +7,17 @@ import {
   SettingsTwoTone,
   SmsTwoTone,
 } from "@mui/icons-material";
-import {  Divider, IconButton } from "@mui/material";
+import { Divider, IconButton } from "@mui/material";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import SideBtn from "../SideBtn";
 import TodoSideBar from "../todo/TodoSideBar";
 
 const SideBar = () => {
   const [open, setOpen] = useState(true);
+
+  const router = useRouter();
 
   return (
     <aside
@@ -51,7 +54,7 @@ const SideBar = () => {
       <Divider />
       {open && (
         <div className="flex flex-col gap-6 mx-6 my-[30px]">
-          <SideBtn title="home">
+          <SideBtn title="">
             <GridViewTwoTone />
           </SideBtn>
 
@@ -87,10 +90,7 @@ const SideBar = () => {
         <Divider />
       </div>
 
-
-      <TodoSideBar open={open} />
-
-
+      {router.route.replace("/", "") === "tasks" && <TodoSideBar open={open} />}
     </aside>
   );
 };
