@@ -90,7 +90,10 @@ const SideBar = () => {
         <Divider />
       </div>
 
-      {router.route.replace("/", "") === "tasks" && <TodoSideBar open={open} />}
+      {(router.route.replace("/", "") === "tasks" ||
+        router.route.replace("/", "") === "") && (
+        <TodoSideBar open={open} />
+      )}
     </aside>
   );
 };

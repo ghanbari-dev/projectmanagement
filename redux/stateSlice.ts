@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { boardType, columnType } from "../types/board";
+import { boardType, columnType, taskType } from "../types/board";
 
 import initData from "../db.json";
 
@@ -170,9 +170,9 @@ export const stateSlice = createSlice({
     },
     updateTask: (
       state,
-      action: PayloadAction<{ colID: string; taskID: string; text: string }>
+      action: PayloadAction<{ colID: string; taskID: string; task: taskType }>
     ) => {
-      const { taskID, colID, text } = action.payload;
+      const { taskID, colID, task } = action.payload;
       const selected: number[] = [];
       state.Boards.filter((board, index) => {
         if (board.id === state.boardIndex) selected.push(index);
@@ -194,7 +194,7 @@ export const stateSlice = createSlice({
           if (taskIndex.length > 0) {
             state.Boards[selected[0]].column[colIndex[0]].task[
               taskIndex[0]
-            ].title = text;
+            ] = task;
           }
         }
       }

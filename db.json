@@ -3,7 +3,7 @@
     {
       "id": "b_2023-02-06T00:11:21.622Z",
       "title": "aaa",
-      "favorite":false,
+      "favorite": false,
       "users": {
         "id": "63bec66661b7a920cc2a0dc2",
         "userID": "63bec66661b7a920cc2a0dc2",
@@ -17,12 +17,24 @@
             {
               "id": "t_2023-02-06T00:11:38.094Z",
               "order": -1,
-              "title": "a1"
+              "title": "a1",
+              "description": "lorem lorem lorem lorem lorem lorem lorem",
+              "image": "/1.png",
+              "priority": "High",
+              "users": ["A", "B", "C"],
+              "comments": ["hi", "bye"],
+              "files": ["aaa", "bbb"]
             },
             {
               "id": "t_2023-02-06T00:11:39.894Z",
               "order": -1,
-              "title": "a2"
+              "title": "a2",
+              "description": "lorem lorem lorem lorem lorem lorem lorem",
+              "image": "/2.png",
+              "priority": "High",
+              "users": ["D", "E"],
+              "comments": ["good"],
+              "files": ["aaa"]
             },
             {
               "id": "t_2023-02-06T00:11:42.894Z",
@@ -72,7 +84,7 @@
     {
       "id": "b_2023-02-06T00:11:23.995Z",
       "title": "bbb",
-      "favorite":false,
+      "favorite": false,
       "users": {
         "id": "63bec66661b7a920cc2a0dc2",
         "userID": "63bec66661b7a920cc2a0dc2",
@@ -141,7 +153,7 @@
     {
       "id": "b_2023-02-06T00:11:26.579Z",
       "title": "ccc",
-      "favorite":true,
+      "favorite": true,
       "users": {
         "id": "63bec66661b7a920cc2a0dc2",
         "userID": "63bec66661b7a920cc2a0dc2",

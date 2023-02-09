@@ -219,7 +219,10 @@ const TodoTemplate = () => {
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
-            <AddTwoTone color="primary" sx={{height:"18px",width:"18px"}} />
+            <AddTwoTone
+              color="primary"
+              sx={{ height: "18px", width: "18px" }}
+            />
             <div className="leading-5 font-medium text-[#5030E5]">Invite</div>
           </div>
           <AvatarGroup
@@ -229,7 +232,8 @@ const TodoTemplate = () => {
                 sx: {
                   height: "34px",
                   width: "34px",
-                  background: "red",
+                  background: "#F4D7DA",
+                  color: "#D25B68",
                   fontSize: "15px",
                 },
               },
@@ -301,7 +305,9 @@ const TodoTemplate = () => {
               <div
                 className={
                   "flex-grow flex gap-5 items-start p-3 h-full transition-colors ease-in-out rounded-2xl" +
-                  (snapshot.isDraggingOver ? " border-2 border-dashed" : " border-2 border-transparent")
+                  (snapshot.isDraggingOver
+                    ? " border-2 border-dashed"
+                    : " border-2 border-transparent")
                 }
                 ref={provided.innerRef}
                 {...provided.droppableProps}

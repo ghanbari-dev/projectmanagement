@@ -22,4 +22,10 @@ export type taskType = {
   id: string;
   title: string;
   order: number;
+  description?: string;
+  image?: string;
+  priority?: "Low" | "High" | "Completed";
+  users?: string[];
+  comments?: string[];
+  files?: string[];
 };

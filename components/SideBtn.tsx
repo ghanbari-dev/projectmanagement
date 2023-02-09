@@ -18,7 +18,7 @@ const SideBtn = ({ title, children }: Props) => {
       }
     >
       <div className="w-6 h-6">{children}</div>
-      <div className="font-medium leading-5">{title || "Home"}</div>
+      <div className="capitalize font-medium leading-5">{title || "Home"}</div>
     </Link>
   );
 };
