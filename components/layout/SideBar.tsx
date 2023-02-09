@@ -51,23 +51,23 @@ const SideBar = () => {
       <Divider />
       {open && (
         <div className="flex flex-col gap-6 mx-6 my-[30px]">
-          <SideBtn title="Home">
+          <SideBtn title="home">
             <GridViewTwoTone />
           </SideBtn>
 
-          <SideBtn title="Messages">
+          <SideBtn title="messages">
             <SmsTwoTone />
           </SideBtn>
 
-          <SideBtn title="Tasks">
+          <SideBtn title="tasks">
             <ListAltTwoTone />
           </SideBtn>
 
-          <SideBtn title="Members">
+          <SideBtn title="members">
             <GroupTwoTone />
           </SideBtn>
 
-          <SideBtn title="Settings">
+          <SideBtn title="settings">
             <SettingsTwoTone />
           </SideBtn>
 
@@ -86,6 +86,7 @@ const SideBar = () => {
       <div className="mx-3">
         <Divider />
       </div>
+
 
       <TodoSideBar open={open} />
 

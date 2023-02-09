@@ -14,6 +14,7 @@ import { persistStore } from "redux-persist";
 import createEmotionCache from "../utils/createEmotionCache";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import { CssBaseline } from "@mui/material";
+import Layout from "../components/layout/Layout";
 
 const clientSideEmotionCache = createEmotionCache();
 
@@ -22,7 +23,6 @@ interface MyAppProps extends AppProps {
 }
 
 const persistor = persistStore(store);
-
 
 function MyApp({
   Component,
@@ -34,7 +34,9 @@ function MyApp({
       <PersistGate persistor={persistor}>
         <CacheProvider value={emotionCache}>
           <CssBaseline />
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </CacheProvider>
       </PersistGate>
     </Provider>

@@ -18,7 +18,7 @@ const Cells = ({ index, task, colID }: Props) => {
   const dispatch = useDispatch();
 
   const [text, setText] = useState(task.title);
-  const [edithMode, setEdithMode] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -43,7 +43,7 @@ const Cells = ({ index, task, colID }: Props) => {
             (snapshot.isDragging ? " border-2 text-black border-black" : " ") // neon-3")
           }
         >
-          {!edithMode ? (
+          {!editMode ? (
             <div className="flex">
               <div className="p-3 flex-grow">{task.title}</div>
               <IconButton size="small" onClick={handleClick}>
@@ -67,11 +67,11 @@ const Cells = ({ index, task, colID }: Props) => {
                   <div
                     className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
                     onClick={() => {
-                      setEdithMode(true);
+                      setEditMode(true);
                       setAnchorEl(null);
                     }}
                   >
-                    <div>Edith</div>
+                    <div>Edit</div>
                     <IconButton size="small">
                       <EditTwoTone color="primary" />
                     </IconButton>
@@ -107,14 +107,14 @@ const Cells = ({ index, task, colID }: Props) => {
                     dispatch(
                       updateTask({ colID: colID, taskID: task.id, text: text })
                     );
-                    setEdithMode(false);
+                    setEditMode(false);
                   }}
                 >
                   <CheckCircleTwoTone color="success" />
                 </IconButton>
                 <IconButton
                   onClick={() => {
-                    setEdithMode(false);
+                    setEditMode(false);
                     setText(task.title);
                   }}
                 >

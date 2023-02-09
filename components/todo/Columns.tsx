@@ -35,7 +35,7 @@ const Columns = ({ index }: Props) => {
   const uid = useSelector(selectUID);
 
   const [text, setText] = useState(colData.title);
-  const [edithMode, setEdithMode] = useState(false);
+  const [editMode, setEditMode] = useState(false);
 
   const addTasks = (title: string) => {
     dispatch(addTask({ title, userID: uid, colID: colData.id }));
@@ -85,12 +85,18 @@ const Columns = ({ index }: Props) => {
                 {open ? <ArrowBackIos /> : <ArrowForwardIos />}
               </IconButton>
             </div>
-            <div className={"flex-grow flex items-center"+(open ? "" : " w-5 flex-col")}>
-              {!edithMode ? (
+            <div
+              className={
+                "flex-grow flex items-center" + (open ? "" : " w-5 flex-col")
+              }
+            >
+              {!editMode ? (
                 <>
                   <div
                     className={
-                      "w-2 h-2 rounded-full mr-2 " + getColor(index, "bg") +(open ? "":" mt-2")
+                      "w-2 h-2 rounded-full mr-2 " +
+                      getColor(index, "bg") +
+                      (open ? "" : " mt-2")
                     }
                   />
                   <div
@@ -114,7 +120,7 @@ const Columns = ({ index }: Props) => {
                       <IconButton
                         color="error"
                         onClick={() => {
-                          setEdithMode(true);
+                          setEditMode(true);
                         }}
                       >
                         <EditTwoTone color="primary" />
@@ -149,14 +155,14 @@ const Columns = ({ index }: Props) => {
                             title: text,
                           })
                         );
-                        setEdithMode(false);
+                        setEditMode(false);
                       }}
                     >
                       <CheckCircleTwoTone color="success" />
                     </IconButton>
                     <IconButton
                       onClick={() => {
-                        setEdithMode(false);
+                        setEditMode(false);
                         setText(colData.title);
                       }}
                     >

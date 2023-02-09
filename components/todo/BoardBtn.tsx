@@ -35,7 +35,7 @@ const BoardBtn = ({
   index,
 }: Props) => {
   const [text, setText] = useState(board.title);
-  const [edithMode, setEdithMode] = useState(false);
+  const [editMode, setEditMode] = useState(false);
   const dispatch = useDispatch();
 
   const removeBoards = (_id: string) => {
@@ -67,12 +67,12 @@ const BoardBtn = ({
             variant={isSelected ? "contained" : "outlined"}
             className="p-2 flex-grow"
             onClick={() => selectBoardHandler(board.id)}
-            // onDoubleClick={() => setEdithMode(true)}
+            // onDoubleClick={() => setEditMode(true)}
           >
             {board.title}
           </Button>
         </div>
-      ) : !edithMode ? (
+      ) : !editMode ? (
         <div
           className={
             "flex items-center gap-4 rounded-md -mx-3 px-3 -my-[10px] py-[10px]" +
@@ -90,7 +90,7 @@ const BoardBtn = ({
               (isSelected ? " text-black" : "")
             }
             onClick={() => selectBoardHandler(board.id)}
-            // onDoubleClick={() => setEdithMode(true)}
+            // onDoubleClick={() => setEditMode(true)}
           >
             {board.title}
           </div>
@@ -127,11 +127,11 @@ const BoardBtn = ({
               <div
                 className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
                 onClick={() => {
-                  setEdithMode(true);
+                  setEditMode(true);
                   setAnchorEl(null);
                 }}
               >
-                <div>Edith</div>
+                <div>Edit</div>
                 <IconButton size="small">
                   <EditTwoTone color="primary" />
                 </IconButton>
@@ -175,14 +175,14 @@ const BoardBtn = ({
             <IconButton
               onClick={() => {
                 updateBoards(board.id, text);
-                setEdithMode(false);
+                setEditMode(false);
               }}
             >
               <CheckCircleTwoTone color="success" />
             </IconButton>
             <IconButton
               onClick={() => {
-                setEdithMode(false);
+                setEditMode(false);
                 setText(board.title);
               }}
             >
