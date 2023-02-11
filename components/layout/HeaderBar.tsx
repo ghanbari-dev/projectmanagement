@@ -12,7 +12,7 @@ const HeaderBar = () => {
   return (
     <header className="h-[86px] flex-shrink-0 flex items-center justify-between pb-[2px]">
       <div
-        className="flex items-center rounded-md w-[417px] h-[44px] ml-12 pb-[2px] pl-[16.8px]" //
+        className="flex items-center bg-[#F5F5F5] rounded-md w-[417px] max-w-[417px] h-[44px] ml-12 pb-[2px] pl-[16.8px]" //
       >
         {/* <SearchTwoTone className="ml-4" /> */}
         <Image src={searchIcon} alt="icon" />
