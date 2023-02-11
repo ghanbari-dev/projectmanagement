@@ -1,11 +1,11 @@
 import {
-  GridViewTwoTone,
-  GroupTwoTone,
-  KeyboardDoubleArrowLeftTwoTone,
+  // GridViewTwoTone,
+  // GroupTwoTone,
+  // KeyboardDoubleArrowLeftTwoTone,
   KeyboardDoubleArrowRightTwoTone,
-  ListAltTwoTone,
-  SettingsTwoTone,
-  SmsTwoTone,
+  // ListAltTwoTone,
+  // SettingsTwoTone,
+  // SmsTwoTone,
 } from "@mui/icons-material";
 import { Divider, IconButton } from "@mui/material";
 import Image from "next/image";
@@ -13,6 +13,15 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import SideBtn from "../SideBtn";
 import TodoSideBar from "../todo/TodoSideBar";
+
+import logo from "../../public/icons/logo.svg";
+import twoLeft from "../../public/icons/two-left.svg";
+
+import homeIcon from "../../public/icons/home.svg";
+import messageIcon from "../../public/icons/message.svg";
+import membersIcon from "../../public/icons/profile-2user.svg";
+import tasksIcon from "../../public/icons/task-square.svg";
+import settingsIcon from "../../public/icons/setting-2.svg";
 
 const SideBar = () => {
   const [open, setOpen] = useState(true);
@@ -22,8 +31,8 @@ const SideBar = () => {
   return (
     <aside
       className={
-        "flex-shrink-0 bg-white overflow-auto border-r-2 " +
-        (open ? "w-[250px]" : "w-20")
+        "flex-shrink-0 bg-white overflow-y-auto border-r-2 " +
+        (open ? "w-[252.5px]" : "w-20")
       }
     >
       <div
@@ -33,45 +42,53 @@ const SideBar = () => {
         }
       >
         <div className="flex gap-2">
-          <Image src="/Group 7.svg" alt="logo" width={24} height={24} />
+          <Image src={logo} alt="logo" />
           <h1 className="text-xl leading-6 font-semibold text-black">
             Project M.
           </h1>
         </div>
-        <IconButton
-          className="border h-6 w-6 p-0"
-          size="small"
-          //color="inherit"
-          onClick={() => setOpen((prev) => !prev)}
-        >
-          {open ? (
-            <KeyboardDoubleArrowLeftTwoTone />
-          ) : (
+
+        {open ? (
+          <Image src={twoLeft} alt="icon" />
+        ) : (
+          <IconButton
+            className="border h-6 w-6 p-0"
+            size="small"
+            //color="inherit"
+            onClick={() => setOpen((prev) => !prev)}
+          >
             <KeyboardDoubleArrowRightTwoTone />
-          )}
-        </IconButton>
+          </IconButton>
+        )}
       </div>
       <Divider />
       {open && (
-        <div className="flex flex-col gap-6 mx-6 my-[30px]">
+        <div className="flex flex-col gap-[25px] mx-6 my-[30px]">
           <SideBtn title="">
-            <GridViewTwoTone />
+            {/* <GridViewTwoTone /> */}
+            <Image src={homeIcon} alt="icon" />
           </SideBtn>
 
           <SideBtn title="messages">
-            <SmsTwoTone />
+            {/* <SmsTwoTone /> */}
+            <Image src={messageIcon} alt="icon" />
           </SideBtn>
 
           <SideBtn title="tasks">
-            <ListAltTwoTone />
+            {/* <ListAltTwoTone /> */}
+            <Image src={tasksIcon} alt="icon" />
           </SideBtn>
 
-          <SideBtn title="members">
-            <GroupTwoTone />
-          </SideBtn>
+          <div className="mt-[2px]">
+            <SideBtn title="members">
+              {/* <GroupTwoTone /> */}
+              <Image src={membersIcon} alt="icon" />
+            </SideBtn>
+          </div>
 
           <SideBtn title="settings">
-            <SettingsTwoTone />
+            {/* <SettingsTwoTone /> */}
+            <Image src={settingsIcon} alt="icon" />
           </SideBtn>
 
           {/* <div className="capitalize">my boards</div>
@@ -91,9 +108,7 @@ const SideBar = () => {
       </div>
 
       {(router.route.replace("/", "") === "tasks" ||
-        router.route.replace("/", "") === "") && (
-        <TodoSideBar open={open} />
-      )}
+        router.route.replace("/", "") === "") && <TodoSideBar open={open} />}
     </aside>
   );
 };

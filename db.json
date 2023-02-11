@@ -2,7 +2,7 @@
   "Boards": [
     {
       "id": "b_2023-02-06T00:11:21.622Z",
-      "title": "aaa",
+      "title": "Mobile App",
       "favorite": false,
       "users": {
         "id": "63bec66661b7a920cc2a0dc2",
@@ -17,39 +17,33 @@
             {
               "id": "t_2023-02-06T00:11:38.094Z",
               "order": -1,
-              "title": "a1",
-              "description": "lorem lorem lorem lorem lorem lorem lorem",
-              "image": "/1.png",
-              "priority": "High",
+              "title": "Brainstorming",
+              "description": "Brainstorming brings team members' diverse experience into play. ",
+              "priority": "Low",
               "users": ["A", "B", "C"],
-              "comments": ["hi", "bye"],
-              "files": ["aaa", "bbb"]
+              "comments": ["a","a","a","a","a","a","a","a","a","a","a","a"],
+              "files": []
             },
             {
               "id": "t_2023-02-06T00:11:39.894Z",
               "order": -1,
-              "title": "a2",
-              "description": "lorem lorem lorem lorem lorem lorem lorem",
-              "image": "/2.png",
+              "title": "Research",
+              "description": "User research helps you to create an optimal product for users.",
               "priority": "High",
-              "users": ["D", "E"],
-              "comments": ["good"],
-              "files": ["aaa"]
+              "users": ["a","b"],
+              "comments": ["a","a","a","a","a","a","a","a","a","a"],
+              "files": ["a","a","a"]
             },
             {
               "id": "t_2023-02-06T00:11:42.894Z",
               "order": -1,
-              "title": "a3",
-              "priority": "Low"
-            },
-            {
-              "id": "t_2023-02-06T00:11:44.397Z",
-              "order": -1,
-              "title": "a4",
-              "priority": "Low"
+              "title": "Wireframes",
+              "priority": "High",
+              "description": "Low fidelity wireframes include the most basic content and visuals.",
+              "users": ["a","b","C"]
             }
           ],
-          "title": "a"
+          "title": "To Do"
         },
         {
           "id": "c_2023-02-06T00:11:33.843Z",
@@ -58,17 +52,25 @@
             {
               "id": "t_2023-02-06T00:11:47.387Z",
               "order": -1,
-              "title": "b1",
-              "priority": "Completed"
+              "title": "Onboarding Illustrations ",
+              "priority": "Low",
+              "image": ["/2.png"],
+              "users": ["a","b","C"],
+              "comments": ["a","a","a","a","a","a","a","a","a","a","a","a","a","a"],
+              "files": ["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"]
             },
             {
               "id": "t_2023-02-06T00:11:49.427Z",
               "order": -1,
-              "title": "b2",
-              "priority": "Low"
+              "title": "Moodboard",
+              "priority": "Low",
+              "image": ["/3.png","/4.png"],
+              "users": ["a"],
+              "comments": ["a","a","a","a","a","a","a","a","a"],
+              "files": ["a","a","a","a","a","a","a","a","a","a"]
             }
           ],
-          "title": "b"
+          "title": "On Progress"
         },
         {
           "id": "c_2023-02-06T00:11:35.644Z",
@@ -77,18 +79,32 @@
             {
               "id": "t_2023-02-06T00:11:51.995Z",
               "order": -1,
-              "title": "c1",
-              "priority": "Low"
+              "title": "Mobile App Design",
+              "priority": "Completed",
+              "image": ["/1.png"],
+              "users": ["a","b"],
+              "comments": ["a","a","a","a","a","a","a","a","a","a","a","a"],
+              "files": ["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"]
+            },
+            {
+              "id": "t_2023-02-06T00:11:52.995Z",
+              "order": -1,
+              "title": "Design System",
+              "priority": "Completed",
+              "description":"It just needs to adapt the UI from what you did before",
+              "users": ["a","b","C"],
+              "comments": ["a","a","a","a","a","a","a","a","a","a","a","a"],
+              "files": ["a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"]
             }
           ],
-          "title": "c"
+          "title": "Done"
         }
       ],
       "order": -1
     },
     {
       "id": "b_2023-02-06T00:11:23.995Z",
-      "title": "bbb",
+      "title": "Website Redesign",
       "favorite": false,
       "users": {
         "id": "63bec66661b7a920cc2a0dc2",
@@ -164,8 +180,20 @@
     },
     {
       "id": "b_2023-02-06T00:11:26.579Z",
-      "title": "ccc",
-      "favorite": true,
+      "title": "Design System",
+      "favorite": false,
+      "users": {
+        "id": "63bec66661b7a920cc2a0dc2",
+        "userID": "63bec66661b7a920cc2a0dc2",
+        "role": "admin"
+      },
+      "column": [],
+      "order": -1
+    },
+    {
+      "id": "b_2023-02-06T00:11:27.579Z",
+      "title": "Wireframes",
+      "favorite": false,
       "users": {
         "id": "63bec66661b7a920cc2a0dc2",
         "userID": "63bec66661b7a920cc2a0dc2",

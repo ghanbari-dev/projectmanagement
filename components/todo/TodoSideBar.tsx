@@ -1,6 +1,7 @@
-import { ControlPointTwoTone } from "@mui/icons-material";
+// import { ControlPointTwoTone } from "@mui/icons-material";
 import { Button, Divider, TextField } from "@mui/material";
-import React, { useState } from "react";
+import Image from "next/image";
+import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, DropResult } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -16,12 +17,15 @@ import { boardType } from "../../types/board";
 import BoardBtn from "./BoardBtn";
 import StrictModeDroppable from "./StrictModeDroppable";
 
+import addIcon from "../../public/icons/add.svg"
+
 type Props = { open: boolean };
 
 const TodoSideBar = ({ open }: Props) => {
   const [addBoardName, setAddBoardName] = useState("");
 
   const [add, setAdd] = useState(false);
+  const [haveFavorite, setHaveFavorite] = useState(false)
 
   const uid = useSelector(selectUID);
   const boardList = useSelector(selectStates);
@@ -79,6 +83,16 @@ const TodoSideBar = ({ open }: Props) => {
 
     dispatch(updateBoardsOrders({ boards: newBoards, userID: uid }));
   };
+
+  useEffect(() => {
+    for (let i = 0; i < boardList.length; i++) {
+      if(boardList[i].favorite)
+      {setHaveFavorite(true);
+      break;}
+      setHaveFavorite(false);
+    }
+  }, [boardList])
+
   return (
     <div className="flex flex-col gap-[30px] mx-6 my-[30px]">
       <div className="flex justify-between items-center">
@@ -89,7 +103,8 @@ const TodoSideBar = ({ open }: Props) => {
           className="w-4 h-4 flex justify-center items-center"
           onClick={() => setAdd((prev) => !prev)}
         >
-          <ControlPointTwoTone />
+          <Image src={addIcon} alt="icon" />
+          {/* <ControlPointTwoTone /> */}
         </div>
       </div>
 
@@ -138,7 +153,7 @@ const TodoSideBar = ({ open }: Props) => {
                       </Draggable>
                     )
                 )}
-                <Divider />
+                {haveFavorite && <Divider />}
                 {boardList.map(
                   (board, index) =>
                     !board.favorite && (

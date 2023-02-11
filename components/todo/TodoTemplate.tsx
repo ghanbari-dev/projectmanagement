@@ -1,12 +1,12 @@
-import {
-  AddTwoTone,
-  CalendarTodayTwoTone,
-  EditTwoTone,
-  FilterAltTwoTone,
-  GridViewTwoTone,
-  GroupTwoTone,
-  LinkTwoTone,
-} from "@mui/icons-material";
+// import {
+//   AddTwoTone,
+//   CalendarTodayTwoTone,
+//   EditTwoTone,
+//   FilterAltTwoTone,
+//   GridViewTwoTone,
+//   GroupTwoTone,
+//   LinkTwoTone,
+// } from "@mui/icons-material";
 import {
   Avatar,
   AvatarGroup,
@@ -30,6 +30,15 @@ import { columnType, taskType } from "../../types/board";
 import Columns from "./Columns";
 
 import StrictModeDroppable from "./StrictModeDroppable";
+
+import linkIcon from "../../public/icons/link.svg";
+import editIcon from "../../public/icons/edit.svg";
+import addIcon from "../../public/icons/add-square.svg";
+import calendarIcon from "../../public/icons/calendar.svg";
+import filterIcon from "../../public/icons/filter.svg";
+import membersIcon from "../../public/icons/profile-2user.svg";
+import groupIcon from "../../public/icons/Group 611.svg";
+import sortIcon from "../../public/icons/Group 612.svg";
 
 const TodoTemplate = () => {
   const dispatch = useDispatch();
@@ -209,20 +218,23 @@ const TodoTemplate = () => {
     <div className="flex flex-col gap-10">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          <div className="text-[46px] leading-[56px] text-[#0D062D] font-semibold">
+          <div className="text-[46px] leading-[56px] text-[#0D062D] font-semibold tracking-[0.035em]">
             {state?.title}
           </div>
-          <div className="ml-[19px] flex items-center gap-3">
-            <EditTwoTone sx={{ height: 30, width: 30 }} color="primary" />
-            <LinkTwoTone sx={{ height: 30, width: 30 }} color="primary" />
+          <div className="ml-[19.5px] mt-[6px] flex items-center gap-3">
+            {/* <EditTwoTone sx={{ height: 30, width: 30 }} color="primary" />
+            <LinkTwoTone sx={{ height: 30, width: 30 }} color="primary" /> */}
+            <Image src={editIcon} alt="icon" />
+            <Image src={linkIcon} alt="icon" />
           </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-2">
-            <AddTwoTone
+          <div className="flex items-center gap-[6px]">
+            {/* <AddTwoTone
               color="primary"
               sx={{ height: "18px", width: "18px" }}
-            />
+            /> */}
+            <Image src={addIcon} height={18} alt="icon" />
             <div className="leading-5 font-medium text-[#5030E5]">Invite</div>
           </div>
           <AvatarGroup
@@ -253,10 +265,11 @@ const TodoTemplate = () => {
           <FormControl>
             <InputLabel sx={{ top: -6 }} htmlFor="filter">
               <div className="flex items-center">
-                <FilterAltTwoTone
+                {/* <FilterAltTwoTone
                   sx={{ height: 16, width: 16, marginRight: "6px" }}
-                />
-                <div className="leading-5 font-medium">Filter</div>
+                /> */}
+                <Image src={filterIcon} alt="icon" />
+                <div className="ml-2 leading-5 font-medium">Filter</div>
               </div>
             </InputLabel>
             <Select
@@ -269,10 +282,11 @@ const TodoTemplate = () => {
           <FormControl>
             <InputLabel sx={{ top: -6 }} htmlFor="today">
               <div className="flex items-center">
-                <CalendarTodayTwoTone
+                {/* <CalendarTodayTwoTone
                   sx={{ height: 16, width: 16, marginRight: "6px" }}
-                />
-                <div className="leading-5 font-medium">Today</div>
+                /> */}
+                <Image src={calendarIcon} alt="icon" />
+                <div className="ml-2 leading-5 font-medium">Today</div>
               </div>
             </InputLabel>
             <Select
@@ -285,62 +299,70 @@ const TodoTemplate = () => {
         </div>
         <div className="flex justify-between items-center gap-5">
           <Button color="inherit" variant="outlined" className="w-[97px] h-10">
-            <GroupTwoTone sx={{ height: 16, width: 16 }} />
-            <span className="ml-[6px]">Share</span>
+            {/* <GroupTwoTone sx={{ height: 16, width: 16 }} /> */}
+            <Image src={membersIcon} height={16} alt="icon" />
+            <span className="ml-[6px] text-base left-[19px] font-medium capitalize">
+              Share
+            </span>
           </Button>
           <div className="h-[28px] w-[1px] bg-[#787486]" />
-          <Image src="/Group 612.svg" alt="btn" height={40} width={40} />
-          <GridViewTwoTone />
+          <Image src={sortIcon} alt="btn" height={40} width={40} />
+          {/* <GridViewTwoTone /> */}
+          <Image className="ml-[2px]" src={groupIcon} alt="btn" height={21} />
         </div>
       </div>
 
       <DragDropContext onDragEnd={onDragEnd}>
-        <div className="w-full h-full flex">
-          <StrictModeDroppable
-            droppableId="cols"
-            direction="horizontal"
-            type="column"
+        <div className="w-full h-full flex overflow-hidden">
+          <div
+            className="" //overflow-y-auto"
           >
-            {(provided, snapshot) => (
-              <div
-                className={
-                  "flex-grow flex gap-5 items-start p-3 h-full transition-colors ease-in-out rounded-2xl" +
-                  (snapshot.isDraggingOver
-                    ? " border-2 border-dashed"
-                    : " border-2 border-transparent")
-                }
-                ref={provided.innerRef}
-                {...provided.droppableProps}
-              >
-                {state?.column.map((col, index) => (
-                  <Columns key={col.id} index={index} />
-                ))}
+            <StrictModeDroppable
+              droppableId="cols"
+              direction="horizontal"
+              type="column"
+            >
+              {(provided, snapshot) => (
+                <div
+                  className={
+                    "flex-grow flex gap-[15px] items-start h-full transition-colors ease-in-out rounded-2xl -ml-[2px]" +
+                    (snapshot.isDraggingOver
+                      ? " border-2 border-dashed"
+                      : " border-2 border-transparent")
+                  }
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                >
+                  {state?.column.map((col, index) => (
+                    <Columns key={col.id} index={index} />
+                  ))}
 
-                {provided.placeholder}
-                <div className="flex bg-white rounded-xl flex-shrink-0 p-2 gap-2 w-[200px]">
-                  <TextField
-                    className="flex-grow max-w-[80%]"
-                    type="text"
-                    value={addColumnName}
-                    onChange={(e) => {
-                      setAddColumnName(e.target.value);
-                    }}
-                  />
-                  <Button
-                    className="p-2 border"
-                    variant="contained"
-                    color="success"
-                    onClick={() => {
-                      addColumns(addColumnName);
-                      setAddColumnName("");
-                    }}
-                  >
-                    add
-                  </Button>
+                  {provided.placeholder}
+                  <div className="flex bg-white rounded-xl flex-shrink-0 p-2 gap-2 w-[200px]">
+                    <TextField
+                      className="flex-grow max-w-[80%]"
+                      type="text"
+                      value={addColumnName}
+                      onChange={(e) => {
+                        setAddColumnName(e.target.value);
+                      }}
+                    />
+                    <Button
+                      className="p-2 border"
+                      variant="contained"
+                      color="success"
+                      onClick={() => {
+                        addColumns(addColumnName);
+                        setAddColumnName("");
+                      }}
+                    >
+                      add
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            )}
-          </StrictModeDroppable>
+              )}
+            </StrictModeDroppable>
+          </div>
         </div>
       </DragDropContext>
     </div>

@@ -1,10 +1,10 @@
 import {
   CancelTwoTone,
-  ChatTwoTone,
+  // ChatTwoTone,
   CheckCircleTwoTone,
   DeleteTwoTone,
   EditTwoTone,
-  FileCopyTwoTone,
+  // FileCopyTwoTone,
   MoreHorizTwoTone,
 } from "@mui/icons-material";
 import {
@@ -29,6 +29,9 @@ import { Draggable } from "react-beautiful-dnd";
 import { useDispatch } from "react-redux";
 import { removeTask, updateTask } from "../../redux/stateSlice";
 import { taskType } from "../../types/board";
+
+import commentIcon from "../../public/icons/message.svg";
+import fileIcon from "../../public/icons/Group 628.svg";
 
 type Props = { index: number; task: taskType; colID: string };
 
@@ -65,7 +68,7 @@ const Cells = ({ index, task, colID }: Props) => {
           }
         >
           {!editMode ? (
-            <div className="flex justify-between items-center">
+            <div className="flex justify-between items-center h-[23px]">
               <div
                 className={
                   "px-[6px] py-1 rounded " +
@@ -91,8 +94,11 @@ const Cells = ({ index, task, colID }: Props) => {
                   {task.priority}
                 </Typography>
               </div>
-              <IconButton size="small" onClick={handleClick}>
-                <MoreHorizTwoTone />
+              <IconButton
+                sx={{ height: "23px", padding: "0" }}
+                onClick={handleClick}
+              >
+                <MoreHorizTwoTone sx={{ height: "23px" }} />
               </IconButton>
               <Popover
                 id={!!anchorEl ? "simple-popover" : undefined}
@@ -173,37 +179,41 @@ const Cells = ({ index, task, colID }: Props) => {
               </div>
             </div>
           )}
-          <div className="mt-1 text-[#0D062D] text-lg leading-[22px] font-semibold">
+          <div className="mt-1 text-[#0D062D] text-lg leading-[22px] tracking-[0.043em] font-semibold">
             {task.title}
           </div>
           {task?.image && (
-            <div className="w-full min-h-[100px] relative">
-              <Image
-                alt="img"
-                src={task.image}
-                width="0"
-                height="0"
-                sizes="100vw"
-                className="w-full h-auto"
-              />
+            <div className="w-full mt-[7px] min-h-[100px] flex gap-3 relative">
+              {task.image.map((img, ind) => (
+                <Image
+                  key={ind}
+                  alt="img"
+                  src={img}
+                  width="0"
+                  height="0"
+                  sizes="100vw"
+                  className="w-full h-auto rounded-lg"
+                />
+              ))}
             </div>
           )}
           {task?.description && (
-            <div className="mt-[6px] text-xs leading-[14px] font-normal">
+            <div className="mt-[6px] text-xs leading-[14.5px] font-normal tracking-[0.03em]">
               {task.description}
             </div>
           )}
 
           <div className="mt-[28px] flex items-center space-x-4">
-            <div className="flex-grow flex">
+            <div className="flex-grow flex h-6 items-center">
               {task?.users && (
                 <AvatarGroup
+                  spacing={4}
                   max={4}
                   componentsProps={{
                     additionalAvatar: {
                       sx: {
-                        height: "24px",
-                        width: "24px",
+                        height: "20px",
+                        width: "20px",
                         background: "#F4D7DA",
                         color: "#D25B68",
                         fontSize: "12px",
@@ -212,7 +222,7 @@ const Cells = ({ index, task, colID }: Props) => {
                   }}
                 >
                   {task.users.map((a) => (
-                    <Avatar key={a} sx={{ height: "24px", width: "24px" }}>
+                    <Avatar key={a} sx={{ height: "20px", width: "20px" }}>
                       {a}
                     </Avatar>
                   ))}
@@ -221,7 +231,13 @@ const Cells = ({ index, task, colID }: Props) => {
             </div>
 
             <div className="text-xs leading-[14px] font-medium">
-              <ChatTwoTone style={{ height: "16px", width: "16px" }} />
+              {/* <ChatTwoTone style={{ height: "16px", width: "16px" }} /> */}
+              <Image
+                src={commentIcon}
+                height={16}
+                alt="icon"
+                className="inline-block"
+              />
               <span className="ml-1">{task?.comments?.length || "0"} </span>
               <span>
                 {task?.comments && task.comments.length > 0
@@ -230,7 +246,8 @@ const Cells = ({ index, task, colID }: Props) => {
               </span>
             </div>
             <div className="text-xs leading-[14px] font-medium">
-              <FileCopyTwoTone style={{ height: "16px", width: "16px" }} />
+              {/* <FileCopyTwoTone style={{ height: "16px", width: "16px" }} /> */}
+              <Image src={fileIcon} alt="icon" className="inline-block" />
               <span className="ml-1">{task?.files?.length || "0"} </span>
               <span>
                 {task?.files && task.files.length > 0 ? "files" : "file"}
@@ -263,7 +280,10 @@ const Cells = ({ index, task, colID }: Props) => {
                 label="image"
                 value={tempTask.image}
                 onChange={(e) => {
-                  setTempTask({ ...tempTask, image: e.target.value });
+                  setTempTask({
+                    ...tempTask,
+                    image: e.target.value.split(","),
+                  });
                 }}
               />
               <FormControl>

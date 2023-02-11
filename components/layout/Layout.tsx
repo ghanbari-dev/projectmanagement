@@ -8,17 +8,17 @@ type Props = {children : ReactNode}
 
 const Layout = ({children}: Props) => {
   return (
-    <div className="h-screen max-h-screen w-screen overflow-hidden flex flex-col text-[#787486]">
+    <div className="h-screen max-h-screen w-screen overflow-hidden flex flex-col text-[#787486] tracking-[0.04em]">
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex-grow flex overflow-hidden">
         <SideBar />
-        <div className="flex-grow overflow-auto">
+        <div className="flex-grow overflow-hidden">
           <HeaderBar />
           <Divider />
-          <main className="px-[42px] py-12">
+          <main className="mx-[46px] pl-[2.5px] my-[40px]">
             {children}
           </main>
         </div>

@@ -17,7 +17,7 @@ import {
   updateBoard,
 } from "../../redux/stateSlice";
 import { boardType } from "../../types/board";
-import { getColor } from "../../utils/getColor";
+// import { getColor } from "../../utils/getColor";
 
 type Props = {
   board: boardType;
@@ -75,18 +75,29 @@ const BoardBtn = ({
       ) : !editMode ? (
         <div
           className={
-            "flex items-center gap-4 rounded-md -mx-3 px-3 -my-[10px] py-[10px]" +
+            "flex items-center gap-4 rounded-md -mx-3 px-[14px] -my-[10px] py-[5px] h-[39px]" +
             (isSelected ? " bg-[#5030E514]" : "")
           }
         >
           {board.favorite ? (
             <FavoriteTwoTone color={isSelected ? "error" : "inherit"} />
           ) : (
-            <div className={"rounded-full h-2 w-2 " + getColor(index, "bg")} />
+            <div
+              className={
+                "rounded-full h-2 w-2 " +
+                (index % 4 === 0
+                  ? "bg-[#7AC555]"
+                  : index % 4 === 1
+                  ? "bg-[#FFA500]"
+                  : index % 4 === 2
+                  ? "bg-[#E4CCFD]"
+                  : "bg-[#76A5EA]") //+ getColor(index, "bg")
+              }
+            />
           )}
           <div
             className={
-              "leading-5 font-semibold flex-grow" +
+              "font-semibold flex-grow leading-[19px]" +
               (isSelected ? " text-black" : "")
             }
             onClick={() => selectBoardHandler(board.id)}
@@ -94,9 +105,14 @@ const BoardBtn = ({
           >
             {board.title}
           </div>
-          <IconButton size="small" onClick={handleClick}>
-            <MoreHorizTwoTone />
-          </IconButton>
+          {isSelected && (
+            <IconButton
+              sx={{ height: "16px", width: "16px" }}
+              onClick={handleClick}
+            >
+              <MoreHorizTwoTone />
+            </IconButton>
+          )}
           <Popover
             id={!!anchorEl ? "simple-popover" : undefined}
             open={!!anchorEl}

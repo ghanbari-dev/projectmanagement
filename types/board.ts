@@ -24,7 +24,7 @@ export type taskType = {
   order: number;
   priority: "Low" | "High" | "Completed";
   description?: string;
-  image?: string;
+  image?: string[];
   users?: string[];
   comments?: string[];
   files?: string[];
