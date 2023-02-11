@@ -78,12 +78,7 @@ const Columns = ({ index }: Props) => {
                 // >
                 //   <ControlPointTwoTone />
                 // </IconButton>
-                <div
-                  onClick={() => {
-                    console.log("click");
-                    setAdd((prev) => !prev);
-                  }}
-                >aaa
+                <div onClick={() => setAdd((prev) => !prev)}>
                   <Image src={addIcon} alt="icon" />
                 </div>
               )}

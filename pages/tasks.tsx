@@ -8,7 +8,7 @@ const Tasks = () => {
 
     const selectedBoardID = useSelector(selectBoardID);
   return (
-    <div>{selectedBoardID ? <TodoTemplate />:<div>select board from side bar</div>}</div>
+    <>{selectedBoardID ? <TodoTemplate />:<div>select board from side bar</div>}</>
   )
 }
 

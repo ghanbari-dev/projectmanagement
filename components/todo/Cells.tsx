@@ -183,17 +183,18 @@ const Cells = ({ index, task, colID }: Props) => {
             {task.title}
           </div>
           {task?.image && (
-            <div className="w-full mt-[7px] min-h-[100px] flex gap-3 relative">
+            <div className="w-full mt-[7px] flex gap-3 relative">
               {task.image.map((img, ind) => (
-                <Image
-                  key={ind}
-                  alt="img"
-                  src={img}
-                  width="0"
-                  height="0"
-                  sizes="100vw"
-                  className="w-full h-auto rounded-lg"
-                />
+                <div key={ind} className="w-full">
+                  <Image
+                    alt="img"
+                    src={img}
+                    width="0"
+                    height="0"
+                    sizes="100vw"
+                    className="w-full h-auto rounded-lg"
+                  />
+                </div>
               ))}
             </div>
           )}
