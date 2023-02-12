@@ -1,6 +1,4 @@
 import {
-  CancelTwoTone,
-  CheckCircleTwoTone,
   DeleteTwoTone,
   EditTwoTone,
   FavoriteTwoTone,
@@ -8,7 +6,14 @@ import {
   MoreHorizTwoTone,
   // PanToolTwoTone,
 } from "@mui/icons-material";
-import { Button, IconButton, Popover, TextField } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Modal,
+  Popover,
+  TextField,
+} from "@mui/material";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import {
@@ -72,7 +77,7 @@ const BoardBtn = ({
             {board.title}
           </Button>
         </div>
-      ) : !editMode ? (
+      ) : (
         <div
           className={
             "flex items-center gap-4 rounded-md -mx-3 px-[14px] -my-[10px] py-[5px] h-[39px]" +
@@ -177,36 +182,36 @@ const BoardBtn = ({
             </div>
           </Popover>
         </div>
-      ) : (
-        <div className="flex items-center gap-2 bg-white opacity-50 rounded-md p-2">
+      )}
+      <Modal
+        open={editMode}
+        onClose={() => {
+          setEditMode(false);
+          setText(board.title);
+        }}
+      >
+        <Box className="absolute grid grid-cols-2 p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 gap-4 bg-white">
           <TextField
-            className="flex-grow max-w-[80%]"
-            type="text"
+            label="Title"
             value={text}
             onChange={(e) => {
               setText(e.target.value);
             }}
           />
-          <div className="flex flex-col">
-            <IconButton
-              onClick={() => {
-                updateBoards(board.id, text);
-                setEditMode(false);
-              }}
-            >
-              <CheckCircleTwoTone color="success" />
-            </IconButton>
-            <IconButton
-              onClick={() => {
-                setEditMode(false);
-                setText(board.title);
-              }}
-            >
-              <CancelTwoTone color="error" />
-            </IconButton>
-          </div>
-        </div>
-      )}
+
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => {
+              updateBoards(board.id, text);
+              setEditMode(false);
+            }}
+          >
+            Done
+          </Button>
+          <div className="flex flex-col"></div>
+        </Box>
+      </Modal>
     </>
   );
 };

@@ -125,9 +125,9 @@ export const stateSlice = createSlice({
     },
     addTask: (
       state,
-      action: PayloadAction<{ title: string; userID: string; colID: string }>
+      action: PayloadAction<{ task: taskType; userID: string; colID: string }>
     ) => {
-      const { title, colID } = action.payload;
+      const { task, colID } = action.payload;
       const selected: number[] = [];
       state.Boards.filter((board, index) => {
         if (board.id === state.boardIndex) selected.push(index);
@@ -140,10 +140,8 @@ export const stateSlice = createSlice({
 
         if (colIndex.length > 0) {
           state.Boards[selected[0]].column[colIndex[0]].task.push({
+            ...task,
             id: "t_" + new Date().toJSON(),
-            priority:"Low",
-            order: -1,
-            title,
           });
         }
       }

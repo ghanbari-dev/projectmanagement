@@ -1,5 +1,5 @@
 // import { ControlPointTwoTone } from "@mui/icons-material";
-import { Button, Divider, TextField } from "@mui/material";
+import { Box, Button, Divider, Modal, TextField } from "@mui/material";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { DragDropContext, Draggable, DropResult } from "react-beautiful-dnd";
@@ -17,7 +17,7 @@ import { boardType } from "../../types/board";
 import BoardBtn from "./BoardBtn";
 import StrictModeDroppable from "./StrictModeDroppable";
 
-import addIcon from "../../public/icons/add.svg"
+import addIcon from "../../public/icons/add.svg";
 
 type Props = { open: boolean };
 
@@ -25,7 +25,7 @@ const TodoSideBar = ({ open }: Props) => {
   const [addBoardName, setAddBoardName] = useState("");
 
   const [add, setAdd] = useState(false);
-  const [haveFavorite, setHaveFavorite] = useState(false)
+  const [haveFavorite, setHaveFavorite] = useState(false);
 
   const uid = useSelector(selectUID);
   const boardList = useSelector(selectStates);
@@ -86,12 +86,13 @@ const TodoSideBar = ({ open }: Props) => {
 
   useEffect(() => {
     for (let i = 0; i < boardList.length; i++) {
-      if(boardList[i].favorite)
-      {setHaveFavorite(true);
-      break;}
+      if (boardList[i].favorite) {
+        setHaveFavorite(true);
+        break;
+      }
       setHaveFavorite(false);
     }
-  }, [boardList])
+  }, [boardList]);
 
   return (
     <div className="flex flex-col gap-[30px] mx-6 my-[30px]">
@@ -191,35 +192,41 @@ const TodoSideBar = ({ open }: Props) => {
                     )
                 )}
                 {provided.placeholder}
-
-                {open && add && (
-                  <div className="flex gap-2">
-                    <TextField
-                      className="flex-grow max-w-[80%]"
-                      type="text"
-                      value={addBoardName}
-                      onChange={(e) => {
-                        setAddBoardName(e.target.value);
-                      }}
-                    />
-                    <Button
-                      variant="contained"
-                      color="success"
-                      onClick={() => {
-                        addBoards(addBoardName);
-                        setAddBoardName("");
-                        setAdd(false);
-                      }}
-                    >
-                      add
-                    </Button>
-                  </div>
-                )}
               </div>
             )}
           </StrictModeDroppable>
         </div>
       </DragDropContext>
+      <Modal
+        open={add}
+        onClose={() => {
+          setAdd(false);
+          setAddBoardName("");
+        }}
+      >
+        <Box className="absolute grid grid-cols-2 p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 gap-4 bg-white">
+          <TextField
+            label="Title"
+            value={addBoardName}
+            onChange={(e) => {
+              setAddBoardName(e.target.value);
+            }}
+          />
+
+          <Button
+            variant="contained"
+            color="success"
+            onClick={() => {
+              addBoards(addBoardName);
+              setAddBoardName("");
+              setAdd(false);
+            }}
+          >
+            Add
+          </Button>
+          <div className="flex flex-col"></div>
+        </Box>
+      </Modal>
     </div>
   );
 };

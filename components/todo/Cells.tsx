@@ -1,7 +1,5 @@
 import {
-  CancelTwoTone,
   // ChatTwoTone,
-  CheckCircleTwoTone,
   DeleteTwoTone,
   EditTwoTone,
   // FileCopyTwoTone,
@@ -41,9 +39,6 @@ const Cells = ({ index, task, colID }: Props) => {
 
   const [tempTask, setTempTask] = useState<taskType>(task);
 
-  const [text, setText] = useState(task.title);
-  const [editMode, setEditMode] = useState(false);
-
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
   );
@@ -67,118 +62,81 @@ const Cells = ({ index, task, colID }: Props) => {
             (snapshot.isDragging ? " border-2 text-black border-black" : " ") // neon-3")
           }
         >
-          {!editMode ? (
-            <div className="flex justify-between items-center h-[23px]">
-              <div
-                className={
-                  "px-[6px] py-1 rounded " +
-                  (task.priority === "Completed"
-                    ? "bg-green-100"
+          <div className="flex justify-between items-center h-[23px]">
+            <div
+              className={
+                "px-[6px] py-1 rounded " +
+                (task.priority === "Completed"
+                  ? "bg-green-100"
+                  : task.priority === "High"
+                  ? "bg-red-100"
+                  : "bg-orange-100")
+              }
+            >
+              <Typography
+                fontSize="12px"
+                lineHeight="14px"
+                fontWeight="500"
+                color={
+                  task.priority === "Completed"
+                    ? "green"
                     : task.priority === "High"
-                    ? "bg-red-100"
-                    : "bg-orange-100")
+                    ? "red"
+                    : "orange"
                 }
               >
-                <Typography
-                  fontSize="12px"
-                  lineHeight="14px"
-                  fontWeight="500"
-                  color={
-                    task.priority === "Completed"
-                      ? "green"
-                      : task.priority === "High"
-                      ? "red"
-                      : "orange"
-                  }
+                {task.priority}
+              </Typography>
+            </div>
+            <IconButton
+              sx={{ height: "23px", padding: "0" }}
+              onClick={handleClick}
+            >
+              <MoreHorizTwoTone sx={{ height: "23px" }} />
+            </IconButton>
+            <Popover
+              id={!!anchorEl ? "simple-popover" : undefined}
+              open={!!anchorEl}
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+            >
+              <div className="p-2">
+                <div
+                  className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
+                  onClick={() => {
+                    setAnchorEl(null);
+                    setOpen(true);
+                  }}
                 >
-                  {task.priority}
-                </Typography>
-              </div>
-              <IconButton
-                sx={{ height: "23px", padding: "0" }}
-                onClick={handleClick}
-              >
-                <MoreHorizTwoTone sx={{ height: "23px" }} />
-              </IconButton>
-              <Popover
-                id={!!anchorEl ? "simple-popover" : undefined}
-                open={!!anchorEl}
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-              >
-                <div className="p-2">
-                  <div
-                    className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
-                    onClick={() => {
-                      // setEditMode(true);
-                      setAnchorEl(null);
-                      setOpen(true);
-                    }}
-                  >
-                    <div>Edit</div>
-                    <IconButton size="small">
-                      <EditTwoTone color="primary" />
-                    </IconButton>
-                  </div>
-                  <div
-                    className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
-                    onClick={() => {
-                      dispatch(removeTask({ colID: colID, taskID: task.id }));
-                      setAnchorEl(null);
-                    }}
-                  >
-                    <div>Delete</div>
-                    <IconButton size="small">
-                      <DeleteTwoTone color="error" />
-                    </IconButton>
-                  </div>
+                  <div>Edit</div>
+                  <IconButton size="small">
+                    <EditTwoTone color="primary" />
+                  </IconButton>
                 </div>
-              </Popover>
-            </div>
-          ) : (
-            <div className="flex items-center gap-2 bg-white opacity-50 rounded-md p-2">
-              <TextField
-                className="flex-grow max-w-[80%]"
-                type="text"
-                value={text}
-                onChange={(e) => {
-                  setText(e.target.value);
-                }}
-              />
-              <div className="flex flex-col">
-                <IconButton
+                <div
+                  className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
                   onClick={() => {
-                    dispatch(
-                      updateTask({
-                        colID: colID,
-                        taskID: task.id,
-                        task: tempTask,
-                      })
-                    );
-                    setEditMode(false);
+                    dispatch(removeTask({ colID: colID, taskID: task.id }));
+                    setAnchorEl(null);
                   }}
                 >
-                  <CheckCircleTwoTone color="success" />
-                </IconButton>
-                <IconButton
-                  onClick={() => {
-                    setEditMode(false);
-                    setText(task.title);
-                  }}
-                >
-                  <CancelTwoTone color="error" />
-                </IconButton>
+                  <div>Delete</div>
+                  <IconButton size="small">
+                    <DeleteTwoTone color="error" />
+                  </IconButton>
+                </div>
               </div>
-            </div>
-          )}
+            </Popover>
+          </div>
+
           <div className="mt-1 text-[#0D062D] text-lg leading-[22px] tracking-[0.043em] font-semibold">
             {task.title}
           </div>
