@@ -115,24 +115,29 @@ const Columns = ({ index }: Props) => {
                   "flex-grow flex items-center" + (open ? "" : " w-5 flex-col")
                 }
               >
-                <div className="mb-[6px] h-[19px] flex items-center">
+                <div
+                  className={
+                    "flex items-center " +
+                    (open ? "mb-[6px] h-[19px]" : "flex-col")
+                  }
+                >
                   <div
                     className={
-                      "w-2 h-2 rounded-full mr-2 " +
+                      "w-2 h-2 rounded-full " +
                       (index % 3 === 0
                         ? "bg-[#5030E5]"
                         : index % 3 === 1
                         ? "bg-[#FFA500]"
                         : "bg-[#8BC48A]") +
-                      (open ? "" : " mt-2")
+                      (open ? " mr-2" : " mt-2")
                     }
                   />
                   <div
                     className={
-                      "font-medium leading-[19px] text-[#0D062D] mr-3 flex-shrink-0" +
+                      "font-medium leading-[19px] text-[#0D062D] flex-shrink-0" +
                       (open
-                        ? ""
-                        : " whitespace-nowrap w-full rotate-90 translate-x-[15px]")
+                        ? " mr-3"
+                        : " whitespace-nowrap w-full rotate-90 translate-x-[50%]")
                     }
                     style={{ transformOrigin: "0 50%" }}
                   >
