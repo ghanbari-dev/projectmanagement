@@ -5,18 +5,7 @@ import {
   DeleteTwoTone,
   EditTwoTone,
 } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Modal,
-  Select,
-  SelectChangeEvent,
-  TextField,
-} from "@mui/material";
+import { IconButton } from "@mui/material";
 import Image from "next/image";
 import React, { memo, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
@@ -34,6 +23,8 @@ import StrictModeDroppable from "./StrictModeDroppable";
 
 import addIcon from "../../public/icons/add-square.svg";
 import { taskType } from "../../types/board";
+import CellEdit from "./CellEdit";
+import ColumnEdit from "./ColumnEdit";
 
 type Props = { index: number };
 
@@ -46,14 +37,19 @@ const Columns = ({ index }: Props) => {
   const colData = useSelector(selectColumn)[index];
   const uid = useSelector(selectUID);
 
-  const [text, setText] = useState(colData.title);
   const [editMode, setEditMode] = useState(false);
 
-  const task: taskType = { id: "", order: -1, priority: "Low", title: "" };
-  const [tempTask, setTempTask] = useState<taskType>(task);
-
-  const addTasks = (task: taskType) => {
+  const handleAddTask = (task: taskType) => {
     dispatch(addTask({ task, userID: uid, colID: colData.id }));
+  };
+
+  const handleEditColumn = (id: string, title: string) => {
+    dispatch(
+      updateColumn({
+        colID: id,
+        title: title,
+      })
+    );
   };
 
   const removeColumns = (id: string) => {
@@ -209,135 +205,14 @@ const Columns = ({ index }: Props) => {
           </div>
         )}
       </Draggable>
-      <Modal
-        open={add}
-        onClose={() => {
-          setAdd(false);
-          setTempTask(task);
-        }}
-      >
-        <Box className="absolute grid grid-cols-2 p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 gap-4 bg-white">
-          <TextField
-            label="Title"
-            value={tempTask.title}
-            onChange={(e) => {
-              setTempTask({ ...tempTask, title: e.target.value });
-            }}
-          />
-          <TextField
-            label="Description"
-            value={tempTask.description}
-            onChange={(e) => {
-              setTempTask({ ...tempTask, description: e.target.value });
-            }}
-          />
-          <TextField
-            label="image"
-            value={tempTask.image}
-            onChange={(e) => {
-              setTempTask({
-                ...tempTask,
-                image: e.target.value.split(","),
-              });
-            }}
-          />
-          <FormControl>
-            <InputLabel htmlFor="priority">priority</InputLabel>
-            <Select
-              id="priority"
-              label="priority"
-              value={tempTask.priority}
-              onChange={(e: SelectChangeEvent) => {
-                setTempTask({
-                  ...tempTask,
-                  priority: e.target.value as "High" | "Low" | "Completed",
-                });
-              }}
-              defaultValue="Low"
-            >
-              <MenuItem value="Low">Low</MenuItem>
-              <MenuItem value="High">High</MenuItem>
-              <MenuItem value="Completed">Completed</MenuItem>
-            </Select>
-          </FormControl>
-          <TextField
-            label="users"
-            value={tempTask.users}
-            onChange={(e) =>
-              setTempTask({
-                ...tempTask,
-                users: e.target.value.split(","),
-              })
-            }
-          />
-          <TextField
-            label="comments"
-            value={tempTask.comments}
-            onChange={(e) =>
-              setTempTask({
-                ...tempTask,
-                comments: e.target.value.split(","),
-              })
-            }
-          />
-          <TextField
-            label="files"
-            value={tempTask.files}
-            onChange={(e) =>
-              setTempTask({
-                ...tempTask,
-                files: e.target.value.split(","),
-              })
-            }
-          />
-          <Button
-            variant="contained"
-            color="success"
-            onClick={() => {
-              addTasks(tempTask);
-              setTempTask(task);
-              setAdd(false);
-            }}
-          >
-            Add
-          </Button>
-          <div className="flex flex-col"></div>
-        </Box>
-      </Modal>
-      <Modal
-        open={editMode}
-        onClose={() => {
-          setEditMode(false);
-          setText(colData.title);
-        }}
-      >
-        <Box className="absolute grid grid-cols-2 p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 gap-4 bg-white">
-          <TextField
-            label="Title"
-            value={text}
-            onChange={(e) => {
-              setText(e.target.value);
-            }}
-          />
+      <CellEdit open={add} setOpen={setAdd} callback={handleAddTask} />
 
-          <Button
-            variant="contained"
-            color="success"
-            onClick={() => {
-              dispatch(
-                updateColumn({
-                  colID: colData.id,
-                  title: text,
-                })
-              );
-              setEditMode(false);
-            }}
-          >
-            Done
-          </Button>
-          <div className="flex flex-col"></div>
-        </Box>
-      </Modal>
+      <ColumnEdit
+        open={editMode}
+        setOpen={setEditMode}
+        colData={colData}
+        callback={handleEditColumn}
+      />
     </div>
   );
 };
