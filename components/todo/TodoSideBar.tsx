@@ -13,11 +13,11 @@ import {
   setBoardID,
   updateBoardsOrders,
 } from "../../redux/stateSlice";
-import { boardType } from "../../types/board";
 import BoardBtn from "./BoardBtn";
 import StrictModeDroppable from "./StrictModeDroppable";
 
 import addIcon from "../../public/icons/add.svg";
+import updateList from "../../utils/updateList";
 
 type Props = { open: boolean };
 
@@ -36,51 +36,10 @@ const TodoSideBar = ({ open }: Props) => {
     dispatch(addBoard({ uid, title: _title }));
   };
 
-  const onDragEnd = (res: DropResult) => {
-    const { destination, source } = res;
-
-    if (!destination) {
-      return;
-    }
-
-    if (
-      destination.droppableId === source.droppableId &&
-      destination.index === source.index
-    ) {
-      return;
-    }
-
-    const newBoards: boardType[] = [];
-    boardList.forEach((board: boardType) => {
-      newBoards.push({ ...board });
-    });
-    for (let _ind = 0; _ind < newBoards.length; _ind++) {
-      if (source.index < destination.index) {
-        if (_ind < source.index || _ind > destination.index) {
-          newBoards[_ind].order = newBoards.length - _ind;
-        } else if (_ind != source.index) {
-          newBoards[_ind].order = newBoards.length - _ind + 1;
-        } else {
-          newBoards[_ind].order = newBoards.length - destination.index;
-        }
-      } else {
-        if (_ind > source.index || _ind < destination.index) {
-          newBoards[_ind].order = newBoards.length - _ind;
-        } else if (_ind != source.index) {
-          newBoards[_ind].order = newBoards.length - _ind - 1;
-        } else {
-          newBoards[_ind].order = newBoards.length - destination.index;
-        }
-      }
-    }
-    newBoards.sort((a, b) => b.order - a.order);
-    // const newState = { ...state, column: newCols };
-    // const newStateS: boardType[] = [];
-    // boardList.forEach((b) => {
-    //   if (b.id != newState.id) newStateS.push(b);
-    //   else newStateS.push(newState);
-    // });
-
+  const dragEndHandler = (res: DropResult) => {
+    if (!boardList) return;
+    const newBoards = updateList(res, boardList);
+    if (!newBoards) return;
     dispatch(updateBoardsOrders({ boards: newBoards, userID: uid }));
   };
 
@@ -109,7 +68,7 @@ const TodoSideBar = ({ open }: Props) => {
         </div>
       </div>
 
-      <DragDropContext onDragEnd={onDragEnd}>
+      <DragDropContext onDragEnd={dragEndHandler}>
         <div className="w-full">
           <StrictModeDroppable droppableId="board" type="board">
             {(provided) => (

@@ -276,6 +276,7 @@ const TableTemplate = ({
                         </TableCell>
                       )}
                       {
+                      // FIXME:
                       // eslint-disable-next-line @typescript-eslint/no-unused-vars
                       Object.entries(row).map(([key, value], _ind) => (
                         <TableCell

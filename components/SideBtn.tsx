@@ -7,8 +7,6 @@ type Props = { title: string; children: ReactNode };
 const SideBtn = ({ title, children }: Props) => {
   const router = useRouter();
 
-  console.log(router.route.split("/"));
-
   return (
     <Link
       href={`/${title}`}

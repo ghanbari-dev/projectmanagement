@@ -1,55 +1,36 @@
-import {
-  // ChatTwoTone,
-  DeleteTwoTone,
-  EditTwoTone,
-  // FileCopyTwoTone,
-  MoreHorizTwoTone,
-} from "@mui/icons-material";
-import {
-  Avatar,
-  AvatarGroup,
-  Box,
-  Button,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Modal,
-  Popover,
-  Select,
-  SelectChangeEvent,
-  TextField,
-  Typography,
-} from "@mui/material";
+// import {
+//   ChatTwoTone,
+//   FileCopyTwoTone,
+// } from "@mui/icons-material";
+import { Avatar, AvatarGroup, Typography } from "@mui/material";
 import Image from "next/image";
 import React, { useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { useDispatch } from "react-redux";
-import { removeTask, updateTask } from "../../redux/stateSlice";
 import { taskType } from "../../types/board";
 
 import commentIcon from "../../public/icons/message.svg";
 import fileIcon from "../../public/icons/Group 628.svg";
+import CellEdit from "./CellEdit";
+import CellActionBtn from "./CellActionBtn";
+import { useDispatch } from "react-redux";
+import { updateTask } from "../../redux/stateSlice";
 
 type Props = { index: number; task: taskType; colID: string };
 
 const Cells = ({ index, task, colID }: Props) => {
-  const dispatch = useDispatch();
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
 
-  const [tempTask, setTempTask] = useState<taskType>(task);
-
-  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
-    null
-  );
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
+  const handleEditTask = (tempTask: taskType) => {
+    dispatch(
+      updateTask({
+        colID: colID,
+        taskID: task.id,
+        task: tempTask,
+      })
+    );
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   return (
     <Draggable draggableId={task.id} index={index} key={task.id}>
       {(provided, snapshot) => (
@@ -88,53 +69,7 @@ const Cells = ({ index, task, colID }: Props) => {
                 {task.priority}
               </Typography>
             </div>
-            <IconButton
-              sx={{ height: "23px", padding: "0" }}
-              onClick={handleClick}
-            >
-              <MoreHorizTwoTone sx={{ height: "23px" }} />
-            </IconButton>
-            <Popover
-              id={!!anchorEl ? "simple-popover" : undefined}
-              open={!!anchorEl}
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-            >
-              <div className="p-2">
-                <div
-                  className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
-                  onClick={() => {
-                    setAnchorEl(null);
-                    setOpen(true);
-                  }}
-                >
-                  <div>Edit</div>
-                  <IconButton size="small">
-                    <EditTwoTone color="primary" />
-                  </IconButton>
-                </div>
-                <div
-                  className="flex justify-between items-center w-full cursor-pointer hover:bg-[#5030E514] p-1"
-                  onClick={() => {
-                    dispatch(removeTask({ colID: colID, taskID: task.id }));
-                    setAnchorEl(null);
-                  }}
-                >
-                  <div>Delete</div>
-                  <IconButton size="small">
-                    <DeleteTwoTone color="error" />
-                  </IconButton>
-                </div>
-              </div>
-            </Popover>
+            <CellActionBtn setOpen={setOpen} task={task} colID={colID} />
           </div>
 
           <div className="mt-1 text-[#0D062D] text-lg leading-[22px] tracking-[0.043em] font-semibold">
@@ -213,106 +148,12 @@ const Cells = ({ index, task, colID }: Props) => {
               </span>
             </div>
           </div>
-          <Modal
+          <CellEdit
             open={open}
-            onClose={() => {
-              setOpen(false);
-              setTempTask(task);
-            }}
-          >
-            <Box className="absolute grid grid-cols-2 p-4 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/2 gap-4 bg-white">
-              <TextField
-                label="Title"
-                value={tempTask.title}
-                onChange={(e) => {
-                  setTempTask({ ...tempTask, title: e.target.value });
-                }}
-              />
-              <TextField
-                label="Description"
-                value={tempTask.description}
-                onChange={(e) => {
-                  setTempTask({ ...tempTask, description: e.target.value });
-                }}
-              />
-              <TextField
-                label="image"
-                value={tempTask.image}
-                onChange={(e) => {
-                  setTempTask({
-                    ...tempTask,
-                    image: e.target.value.split(","),
-                  });
-                }}
-              />
-              <FormControl>
-                <InputLabel htmlFor="priority">priority</InputLabel>
-                <Select
-                  id="priority"
-                  label="priority"
-                  value={tempTask.priority}
-                  onChange={(e: SelectChangeEvent) => {
-                    setTempTask({
-                      ...tempTask,
-                      priority: e.target.value as "High" | "Low" | "Completed",
-                    });
-                  }}
-                  defaultValue="Low"
-                >
-                  <MenuItem value="Low">Low</MenuItem>
-                  <MenuItem value="High">High</MenuItem>
-                  <MenuItem value="Completed">Completed</MenuItem>
-                </Select>
-              </FormControl>
-              <TextField
-                label="users"
-                value={tempTask.users}
-                onChange={(e) =>
-                  setTempTask({
-                    ...tempTask,
-                    users: e.target.value.split(","),
-                  })
-                }
-              />
-              <TextField
-                label="comments"
-                value={tempTask.comments}
-                onChange={(e) =>
-                  setTempTask({
-                    ...tempTask,
-                    comments: e.target.value.split(","),
-                  })
-                }
-              />
-              <TextField
-                label="files"
-                value={tempTask.files}
-                onChange={(e) =>
-                  setTempTask({
-                    ...tempTask,
-                    files: e.target.value.split(","),
-                  })
-                }
-              />
-              <Button
-                variant="contained"
-                color="success"
-                onClick={() => {
-                  dispatch(
-                    updateTask({
-                      colID: colID,
-                      taskID: task.id,
-                      task: tempTask,
-                    })
-                  );
-                  setOpen(false);
-                }}
-              >
-                Done
-              </Button>
-              <div className="flex flex-col"></div>
-            </Box>
-          </Modal>
+            setOpen={setOpen}
+            task={task}
+            callback={handleEditTask}
+          />
         </div>
       )}
     </Draggable>
